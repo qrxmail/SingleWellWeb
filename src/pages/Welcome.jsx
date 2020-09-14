@@ -15,7 +15,7 @@ export default () => (
   <PageContainer>
     <Card>
       <Alert
-        message="更快更强的重型组件，已经发布。"
+        message="正在开发中。。。"
         type="success"
         showIcon
         banner
@@ -24,7 +24,7 @@ export default () => (
           marginBottom: 24,
         }}
       />
-      <Typography.Text strong>
+      {/* <Typography.Text strong>
         高级表格{' '}
         <a href="https://protable.ant.design/" rel="noopener noreferrer" target="__blank">
           欢迎使用
@@ -42,7 +42,7 @@ export default () => (
           欢迎使用
         </a>
       </Typography.Text>
-      <CodePreview>yarn add @ant-design/pro-layout</CodePreview>
+      <CodePreview>yarn add @ant-design/pro-layout</CodePreview> */}
     </Card>
   </PageContainer>
 );

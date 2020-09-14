@@ -9,6 +9,7 @@ const genList = (current, pageSize) => {
     const index = (current - 1) * 10 + i;
     tableListDataSource.push({
       key: index,
+      id: index,
       disabled: i % 6 === 0,
       href: 'https://ant.design',
       avatar: [
