@@ -192,7 +192,7 @@ export default (props) => {
   const [headerId, setHeaderId] = useState(props.headerId);
   // 定义页面属性
   // const {
-  //   boilerRecordHeaderId:string
+  //   boilerRecordHeaderId
   // } = props;
 
 
@@ -247,7 +247,7 @@ export default (props) => {
         dateFormatter="string"
         headerTitle="查询结果"
         bordered
-        
+
         // 设置查询表单的size
         form={{
           size: 'small',
@@ -286,16 +286,16 @@ export default (props) => {
           // </Button>,
 
           // 选中的行大于0，显示批量删除按钮
-        //   selectedRowsState?.length > 0 ?
-        //     <Button key="batchdel" type="primary" size='small'
-        //       onClick={async () => {
-        //         await handleRemove(selectedRowsState);
-        //         setSelectedRows([]);
-        //         actionRef.current?.reloadAndRest?.();
-        //       }}
-        //     >
-        //       批量删除
-        //  </Button> : null
+          //   selectedRowsState?.length > 0 ?
+          //     <Button key="batchdel" type="primary" size='small'
+          //       onClick={async () => {
+          //         await handleRemove(selectedRowsState);
+          //         setSelectedRows([]);
+          //         actionRef.current?.reloadAndRest?.();
+          //       }}
+          //     >
+          //       批量删除
+          //  </Button> : null
         ]}
         scroll={{ x: 2000 }}
       />
@@ -317,13 +317,13 @@ export default (props) => {
           }
         >
           <Button key="batchdel" type="primary" size='small'
-              onClick={async () => {
-                await handleRemove(selectedRowsState);
-                setSelectedRows([]);
-                actionRef.current?.reloadAndRest?.();
-              }}
-            >
-              批量删除
+            onClick={async () => {
+              await handleRemove(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            批量删除
          </Button>
         </FooterToolbar>
       )}

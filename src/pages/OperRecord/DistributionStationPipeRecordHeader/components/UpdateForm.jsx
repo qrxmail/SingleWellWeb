@@ -65,11 +65,11 @@ const UpdateForm = (props) => {
     // 获取设备数据
     let initDeviceList = [];
     const [device, SetDevice] = useState(initDeviceList);
-    useEffect(() => {
-        MainDeviceService.deviceGroupByBrank('锅炉', '白水').then((result) => {
-            SetDevice(result);
-        });
-    }, [1]);
+    // useEffect(() => {
+    //     MainDeviceService.deviceGroupByBrank('锅炉', '白水').then((result) => {
+    //         SetDevice(result);
+    //     });
+    // }, [1]);
 
     // 设备下拉选项改变事件
     const onChange = (value) => {

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { PlusOutlined, ExclamationCircleOutlined, UploadOutlined,DownloadOutlined } from "@ant-design/icons";
+import { PlusOutlined, ExclamationCircleOutlined, UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { Button, Drawer, Divider, Modal, message, Upload } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -30,7 +30,7 @@ const handleUpdate = async (deviceId, fields) => {
     fields.branchId = fields.deviceAndBranch == undefined ? '' : fields.deviceAndBranch[0];
     if (fields.isAdd) {
       delete fields.isAdd;
-      await add(deviceId,fields);
+      await add(deviceId, fields);
     } else {
       delete fields.isAdd;
       await update(fields);
@@ -205,13 +205,13 @@ export default (props) => {
     },
   ];
 
-   // 将页面属性放入到state中
-   const [deviceId, setDeviceId] = useState(props.deviceId);
-   // 定义页面属性
-   // const {
-   //   deviceId:string
-   // } = props;
- 
+  // 将页面属性放入到state中
+  const [deviceId, setDeviceId] = useState(props.deviceId);
+  // 定义页面属性
+  // const {
+  //   deviceId
+  // } = props;
+
 
   // 详情页面传入的参数（选择的行数据）
   const [row, setRow] = useState();
@@ -227,7 +227,7 @@ export default (props) => {
   const [modelTitle, setModelTitle] = useState("");
 
   // 记录详情页面是否可见
-  const [detailModalVisible,handleDetailModalVisible]= useState(false);
+  const [detailModalVisible, handleDetailModalVisible] = useState(false);
 
   const actionRef = useRef();
 
@@ -266,7 +266,7 @@ export default (props) => {
         rowKey="id"
         dateFormatter="string"
         bordered
-        
+
         headerTitle="查询结果"
         // 设置查询表单的size
         form={{
@@ -306,18 +306,18 @@ export default (props) => {
           // </Button>,
 
           // 选中的行大于0，显示批量删除按钮
-        //   selectedRowsState?.length > 0 ?
-        //     <Button key="batchdel" type="primary" size='small'
-        //       onClick={async () => {
-        //         await handleRemove(selectedRowsState);
-        //         setSelectedRows([]);
-        //         actionRef.current?.reloadAndRest?.();
-        //       }}
-        //     >
-        //       批量删除
-        //  </Button> : null
+          //   selectedRowsState?.length > 0 ?
+          //     <Button key="batchdel" type="primary" size='small'
+          //       onClick={async () => {
+          //         await handleRemove(selectedRowsState);
+          //         setSelectedRows([]);
+          //         actionRef.current?.reloadAndRest?.();
+          //       }}
+          //     >
+          //       批量删除
+          //  </Button> : null
         ]}
-      scroll={{ x: 1600 }}
+        scroll={{ x: 1600 }}
       />
 
       {selectedRowsState?.length > 0 && (
@@ -337,13 +337,13 @@ export default (props) => {
           }
         >
           <Button key="batchdel" type="primary" size='small'
-              onClick={async () => {
-                await handleRemove(selectedRowsState);
-                setSelectedRows([]);
-                actionRef.current?.reloadAndRest?.();
-              }}
-            >
-              批量删除
+            onClick={async () => {
+              await handleRemove(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            批量删除
          </Button>
         </FooterToolbar>
       )}
@@ -377,7 +377,7 @@ export default (props) => {
         <UpdateForm
           title={modelTitle}
           onSubmit={async (value) => {
-            const success = await handleUpdate(deviceId,value);
+            const success = await handleUpdate(deviceId, value);
 
             if (success) {
               handleUpdateModalVisible(false);

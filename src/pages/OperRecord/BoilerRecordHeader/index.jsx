@@ -176,7 +176,7 @@ export default (props) => {
   const [deviceId, setDeviceId] = useState(props.deviceId);
   // 定义页面属性
   // const {
-  //   deviceId:string
+  //   deviceId
   // } = props;
 
 
