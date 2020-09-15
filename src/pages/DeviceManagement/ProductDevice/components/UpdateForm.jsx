@@ -84,7 +84,7 @@ const UpdateForm = (props) => {
     const renderContent = () => {
         return (
             <>
-                <Tabs defaultActiveKey="1" tabPosition='left'>
+                <Tabs defaultActiveKey="1" tabPosition="top">
                     <TabPane tab={<span>基础信息</span>} key="1">
                         <Row>
                             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -338,7 +338,7 @@ const UpdateForm = (props) => {
     return (
         <Drawer
             width={'80%'}
-            bodyStyle={{ padding: '32px 40px 48px' }}
+            bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}
             visible={updateModalVisible}

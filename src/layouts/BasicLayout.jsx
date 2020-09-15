@@ -12,6 +12,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.png';
+
 const noMatch = (
   <Result
     status={403}
@@ -128,7 +129,7 @@ const BasicLayout = (props) => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-          <span>{route.breadcrumbName}</span>
+          <span>{route.breadcrumbName}</span>  
         );
       }}
       footerRender={() => defaultFooterDom}

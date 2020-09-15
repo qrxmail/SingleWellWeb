@@ -282,7 +282,8 @@ export default (props) => {
 
       {/* 详情 */}
       <Drawer
-        width={600}
+        //width={600}
+        style={{minWidth:300,maxWidth:600}}
         visible={!!row}
         onClose={() => {
           setRow(undefined);

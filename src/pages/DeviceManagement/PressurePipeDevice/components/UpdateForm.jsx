@@ -722,7 +722,7 @@ const UpdateForm = (props) => {
     return (
         <Drawer
             width={'80%'}
-            bodyStyle={{ padding: '32px 40px 48px' }}
+            bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}
             visible={updateModalVisible}
