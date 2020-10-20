@@ -1,21 +1,26 @@
-import { stringify } from 'querystring';
 import { history } from 'umi';
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority, setCurrentUserName } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+
 const Model = {
-  namespace: 'login',
+  namespace: 'singleLogin',
+
+  // 必须要定义state
   state: {
     status: undefined,
   },
+
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+
       yield put({
         type: 'changeLoginStatus',
         payload: response,
-      }); // Login successfully
+      });
 
+      // 登录成功：跳转到请求页面/欢迎页
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -38,33 +43,25 @@ const Model = {
 
         history.replace(redirect || '/');
       }
-
-      // 设置系统当前登录用户
-      setCurrentUserName(payload.userName);
-
-    },
-
-    logout() {
-      const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-
-      if (window.location.pathname !== '/user/login' && !redirect) {
-        history.replace({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        });
+      // 登录失败：跳转到登录页面
+      else {
+        window.location.href = '/user/login';
       }
 
       // 设置系统当前登录用户
-      setCurrentUserName(null);
+      setCurrentUserName(payload.userName);
     },
+
   },
+
   reducers: {
     changeLoginStatus(state, { payload }) {
+      // 设置系统登录用户权限
       setAuthority(payload.currentAuthority);
+      // 必须要有返回值
       return { ...state, status: payload.status, type: payload.type };
     },
   },
+
 };
 export default Model;

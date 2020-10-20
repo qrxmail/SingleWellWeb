@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
-import { PlusOutlined, ExclamationCircleOutlined, UploadOutlined, DownloadOutlined } from "@ant-design/icons";
-import { Button, Drawer, Divider, Modal, message, Upload } from "antd";
+import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Button, Drawer, Divider, Modal, message } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 
 import UpdateForm from './components/UpdateForm';
 import { query, update, add, remove } from './service';
-import '../../Common.less';
+import '../Common.less';
 
 // 确认对话框
 const { confirm } = Modal;
@@ -69,38 +69,27 @@ const handleRemove = async (selectedRows) => {
 
 };
 
-export default (props) => {
+export default () => {
   // 列表的列属性
   const columns = [
     {
-      title: "事故时间",
-      dataIndex: "happenTime",
-      valueType: "date",
+      title: "序号",
+      valueType: "index",
     },
     {
-      title: "事故原因简述",
-      dataIndex: "reason",
+      title: "用户名",
+      dataIndex: "name",
+      render: (dom, entity) => {
+        return <a onClick={() => setRow(entity)}>{dom}</a>;
+      }
     },
     {
-      title: "事故损失（元）",
-      dataIndex: "loss",
-      valueType: "money",
+      title: "角色",
+      dataIndex: "role",
     },
     {
-      title: "事故性质",
-      dataIndex: "type",
-    },
-    {
-      title: "事故责任人",
-      dataIndex: "responsibleStaff",
-    },
-    {
-      title: "事故分析和处理情况",
-      dataIndex: "analysis",
-    },
-    {
-      title: "备注",
-      dataIndex: "remark",
+      title: "所属公司",
+      dataIndex: "branch",
     },
     {
       title: '操作',
@@ -108,18 +97,18 @@ export default (props) => {
       valueType: 'option',
       render: (_, entity) => (
         <>
-          <Button type="link"
+          <a type="link"
             onClick={() => {
               handleUpdateModalVisible(true);
               setFormValues(entity);
               setModelTitle("修改");
             }}>
             修改
-          </Button>
+          </a>
 
           <Divider type="vertical" />
 
-          <Button type="link"
+          <a type="link"
             onClick={() => {
               // 删除确认
               confirm({
@@ -137,23 +126,14 @@ export default (props) => {
                 onCancel() {
                 },
               });
-
             }}
           >
             删除
-          </Button>
+          </a>
         </>
       ),
     },
   ];
-
-  // 将页面属性放入到state中
-  const [deviceId, setDeviceId] = useState(props.deviceId);
-  // 定义页面属性
-  // const {
-  //   deviceId
-  // } = props;
-
 
   // 详情页面传入的参数（选择的行数据）
   const [row, setRow] = useState();
@@ -169,30 +149,6 @@ export default (props) => {
   const [modelTitle, setModelTitle] = useState("");
 
   const actionRef = useRef();
-
-  // 文件上传组件属性
-  const uploadProps = {
-    name: 'file',
-    action: 'https://localhost:44332/api/app/basicDeviceDto/uploadFiles',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    showUploadList: false,
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} 导入成功`);
-        // 刷新列表
-        if (actionRef.current) {
-          actionRef.current.reload();
-        }
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} 导入失败.`);
-      }
-    },
-  };
 
   // 绘制列表页面
   return (
@@ -216,7 +172,6 @@ export default (props) => {
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
         toolBarRender={() => [
-
           <Button key="export" type="primary" size='small'
             onClick={() => {
               handleUpdateModalVisible(true);
@@ -226,28 +181,7 @@ export default (props) => {
             }}>
             <PlusOutlined />
             新增
-          </Button>,
-
-          // <Upload {...uploadProps}>
-          //   <Button key="import" type="primary" size='small'>
-          //     <DownloadOutlined /> 导入
-          //   </Button>
-          // </Upload>,
-          // <Button key="export" type="primary" size='small' onClick={() => { window.location.href = "/text.xlsx" }}>
-          //   <UploadOutlined />导出
-          // </Button>,
-
-          // 选中的行大于0，显示批量删除按钮
-          //   selectedRowsState?.length > 0 ?
-          //     <Button key="batchdel" type="primary" size='small'
-          //       onClick={async () => {
-          //         await handleRemove(selectedRowsState);
-          //         setSelectedRows([]);
-          //         actionRef.current?.reloadAndRest?.();
-          //       }}
-          //     >
-          //       批量删除
-          //  </Button> : null
+          </Button>
         ]}
       //scroll={{ x: 4000 }}
       />
@@ -282,8 +216,8 @@ export default (props) => {
 
       {/* 详情 */}
       <Drawer
-        //width={600}
-        style={{minWidth:300,maxWidth:600}}
+        width={600}
+        //style={{ minWidth: 300, maxWidth: 600 }}
         visible={!!row}
         onClose={() => {
           setRow(undefined);

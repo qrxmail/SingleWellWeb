@@ -24,27 +24,31 @@ const GlobalHeaderRight = (props) => {
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
-        defaultValue="umi ui"
+        defaultValue="生产设备"
         options={[
           {
-            label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
-            value: 'umi ui',
+            label: <a href="/DeviceLedgers/ProductDevice">生产设备</a>,
+            value: '生产设备',
           },
           {
-            label: <a href="next.ant.design">Ant Design</a>,
-            value: 'Ant Design',
+            label: <a href="/DeviceLedgers/PressureVesselDevice">压力容器</a>,
+            value: '压力容器',
           },
           {
-            label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: 'Pro Table',
+            label: <a href="/DeviceLedgers/PressurePipeDevice">压力管道</a>,
+            value: '压力管道',
           },
           {
-            label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: 'Pro Layout',
+            label: <a href="/DeviceLedgers/ValvePitDevice">阀井阀门</a>,
+            value: '阀井阀门',
+          },
+          {
+            label: <a href="/DeviceLedgers/PressureRegulatingStation">调压箱调压柜</a>,
+            value: '调压箱调压柜',
           },
         ]} // onSearch={value => {
-        //   //console.log('input', value);
-        // }}
+      //   //console.log('input', value);
+      // }}
       />
       <Tooltip title="使用文档">
         <a
@@ -65,7 +69,7 @@ const GlobalHeaderRight = (props) => {
           <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>
         </span>
       )}
-      <SelectLang className={styles.action} />
+      {/* <SelectLang className={styles.action} /> */}
     </div>
   );
 };

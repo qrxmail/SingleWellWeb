@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, Select, Drawer, Button, Row, Col, InputNumber, DatePicker,Modal } from 'antd';
-import moment from 'moment';
-import { areaDic, sourceDic, isOriginalStrDic, docTypeDic } from '../../../dic.config';
+import { Form, Input, Select, Drawer, Button, Row, Col } from 'antd';
+import { roleDic, branchDic } from '../../dic.config';
 
 // 表单项
 const FormItem = Form.Item;
@@ -14,13 +13,10 @@ const UpdateForm = (props) => {
     const [formVals, setFormVals] = useState({
         isAdd: props.values.id == undefined ? true : false,
         id: props.values.id == undefined ? '' : props.values.id,
-        key: props.values.key,
-        happenTime: props.values.happenTime,
-        loss: props.values.loss,
-        reason: props.values.reason,
-        type: props.values.type,
-        analysis: props.values.analysis,
-        responsibleStaff: props.values.responsibleStaff,
+        name: props.values.name,
+        pwd: props.values.pwd,
+        role: props.values.role,
+        branch: props.values.branch,
         remark: props.values.remark,
     });
 
@@ -35,7 +31,6 @@ const UpdateForm = (props) => {
         onSubmit: handleUpdate,
         onCancel: handleUpdateModalVisible,
         updateModalVisible,
-        values,
         title,
     } = props;
 
@@ -51,11 +46,6 @@ const UpdateForm = (props) => {
         setLoading(false);
     };
 
-    // 将时间格式化为moment或者null
-    const setTime = (timeStr) => {
-        return (timeStr == '0001-01-01T00:00:00' || timeStr == undefined || timeStr == null) ? null : moment(timeStr, 'YYYY年MM月DD日')
-    }
-
     // 表单内容
     const renderContent = () => {
         return (
@@ -63,65 +53,64 @@ const UpdateForm = (props) => {
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="happenTime"
-                            label="事故时间"
-                        //rules={[{ required: true, message: '请输入管道规格！' }]}
-                        >
-                            <DatePicker style={{ width: '100%', }} format="YYYY年MM月DD日" placeholder="选择事故时间" />
-                        </FormItem>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <FormItem
-                            name="reason"
-                            label="事故原因简述"
-                        //rules={[{ required: true, message: '请输入事故原因简述！' }]}
+                            name="name"
+                            label="用户名"
+                            rules={[{ required: true, message: '请输入用户名！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="loss"
-                            label="事故损失（元）"
-                        //rules={[{ required: true, message: '请输入管道规格！' }]}
-                        >
-                            <InputNumber min={1} max={100} style={{ width: '100%' }} />
-                        </FormItem>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <FormItem
-                            name="type"
-                            label="事故性质"
-                        // rules={[{ required: true, message: '请输入事故性质！' }]}
+                            name="pwd"
+                            label="密码"
+                            rules={[{ required: true, message: '请输入密码！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="responsibleStaff"
-                            label="事故责任人"
-                        //rules={[{ required: true, message: '请输入事故责任人！' }]}
+                            name="confirmPwd"
+                            label="确认密码"
+                            rules={[{ required: true, message: '请输入确认密码！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="analysis"
-                            label="事故分析和处理情况"
-                        //rules={[{ required: true, message: '请输入事故分析和处理情况！' }]}
+                            name="role"
+                            label="角色"
+                            rules={[{ required: true, message: '请选择角色！' }]}
                         >
-                            <Input placeholder="请输入" />
+                            <Select style={{ width: '100%' }} showSearch >
+                                {roleDic.map(name => (
+                                    <Option key={name} value={name}>{name}</Option>
+                                ))}
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
+                            name="branch"
+                            label="所属分公司"
+                        //rules={[{ required: true, message: '请选择！' }]}
+                        >
+                            <Select style={{ width: '100%' }} showSearch >
+                                {branchDic.map(name => (
+                                    <Option key={name} value={name}>{name}</Option>
+                                ))}
+                            </Select>
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="remark"
                             label="备注"
-                        //rules={[{ required: true, message: '请输入管道规格！' }]}
+                        //rules={[{ required: true, message: '请输入！' }]}
                         >
-                            <Input placeholder="请输入" />
+                            <TextArea rows={4} placeholder="请输入备注" />
                         </FormItem>
                     </Col>
                 </Row>
@@ -155,13 +144,10 @@ const UpdateForm = (props) => {
                 size='small'
                 initialValues={{
                     id: formVals.id,
-                    key: formVals.key,
-                    happenTime: setTime(formVals.happenTime),
-                    loss: formVals.loss,
-                    reason: formVals.reason,
-                    type: formVals.type,
-                    analysis: formVals.analysis,
-                    responsibleStaff: formVals.responsibleStaff,
+                    name: formVals.name,
+                    pwd: formVals.pwd,
+                    role: formVals.role,
+                    branch: formVals.branch,
                     remark: formVals.remark,
                 }}
             >
