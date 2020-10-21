@@ -1,3 +1,4 @@
+import { connect } from 'umi';
 import React, { useState, useRef } from "react";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Button, Drawer, Divider, Modal, message } from "antd";
@@ -7,14 +8,21 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 
 import UpdateForm from './components/UpdateForm';
 import { query, update, add, remove } from './service';
+
 import '../Common.less';
 
 // 确认对话框
 const { confirm } = Modal;
 
 // 新增/修改
-const handleUpdate = async (deviceId, fields) => {
+const handleUpdate = async (fields) => {
   const hide = message.loading('正在保存');
+
+  if (fields.password !== fields.confirmPwd) {
+    hide();
+    message.error('密码和确认密码必须相同！');
+    return false;
+  }
 
   // 将null和空字符串的属性去掉
   Object.keys(fields).forEach((key) => {
@@ -25,20 +33,20 @@ const handleUpdate = async (deviceId, fields) => {
   });
 
   try {
-
-    fields.mainDeviceId = deviceId;
+    let result = {};
     if (fields.isAdd) {
-      delete fields.isAdd;
-      await add(deviceId, fields);
+      result = await add(fields);
     } else {
-      delete fields.isAdd;
-      await update(fields);
+      result = await update(fields);
     }
 
     hide();
-
-    message.success('保存成功');
-    return true;
+    if (result.isSuccess) {
+      message.success('保存成功');
+    } else {
+      message.error(result.errMsg);
+    }
+    return result.isSuccess;
   } catch (error) {
     hide();
     message.error('保存失败请重试！');
@@ -53,10 +61,9 @@ const handleRemove = async (selectedRows) => {
   if (!selectedRows) return true;
 
   try {
-
-    selectedRows.forEach(async (dto) => {
-      await remove(dto);
-    })
+    await remove({
+      id: selectedRows.map(row => row.userId),
+    });
 
     hide();
     message.success('删除成功，即将刷新');
@@ -69,7 +76,32 @@ const handleRemove = async (selectedRows) => {
 
 };
 
-export default () => {
+// 重置密码
+const handleResetPwd = async (fields) => {
+  const hide = message.loading('正在重置');
+  try {
+    fields.password = "1";
+    let result = await update(fields);
+    hide();
+    if (result.isSuccess) {
+      message.success('重置成功');
+    } else {
+      message.error(result.errMsg);
+    }
+    return result.isSuccess;
+  } catch (error) {
+    hide();
+    message.error('重置失败请重试！');
+    return false;
+  }
+};
+
+const TableList = (props) => {
+  // 将当前用户加入到props中
+  const {
+    currentUser
+  } = props;
+
   // 列表的列属性
   const columns = [
     {
@@ -77,15 +109,27 @@ export default () => {
       valueType: "index",
     },
     {
-      title: "用户名",
-      dataIndex: "name",
+      title: "账户",
+      dataIndex: "userName",
       render: (dom, entity) => {
         return <a onClick={() => setRow(entity)}>{dom}</a>;
       }
     },
     {
       title: "角色",
-      dataIndex: "role",
+      dataIndex: "currentAuthority",
+    },
+    {
+      title: "用户名",
+      dataIndex: "name",
+    },
+    {
+      title: "联系电话",
+      dataIndex: "mobile",
+    },
+    {
+      title: "邮件地址",
+      dataIndex: "email",
     },
     {
       title: "所属公司",
@@ -95,43 +139,59 @@ export default () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, entity) => (
-        <>
-          <a type="link"
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setFormValues(entity);
-              setModelTitle("修改");
-            }}>
-            修改
-          </a>
+      render: (_, entity) => {
+        // 系统管理员amdin、自己：不可以删除、不可修改
+        let delBtnDisabled = entity.userName === "admin" || currentUser.userName === entity.userName;
+        let editBtnDisabled = entity.userName === "admin" || currentUser.userName === entity.userName;
+        return (
+          <>
+            <Button type="link" size="small" disabled={editBtnDisabled}
+              onClick={() => {
+                handleUpdateModalVisible(true);
+                setFormValues(entity);
+                setModelTitle("修改");
+              }}>
+              修改
+            </Button>
 
-          <Divider type="vertical" />
+            <Divider type="vertical" />
 
-          <a type="link"
-            onClick={() => {
-              // 删除确认
-              confirm({
-                title: '您确定要删除这条记录吗?',
-                icon: <ExclamationCircleOutlined />,
-                content: '',
-                onOk() {
-                  var delRows = [];
-                  delRows.push(entity);
-                  handleRemove(delRows);
-                  if (actionRef.current) {
-                    actionRef.current.reload();
-                  }
-                },
-                onCancel() {
-                },
-              });
-            }}
-          >
-            删除
-          </a>
-        </>
-      ),
+            <Button type="link" size="small" disabled={delBtnDisabled}
+              onClick={() => {
+                // 删除确认
+                confirm({
+                  title: '您确定要删除这条记录吗?',
+                  icon: <ExclamationCircleOutlined />,
+                  content: '',
+                  onOk() {
+                    var delRows = [];
+                    delRows.push(entity);
+                    handleRemove(delRows);
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                  },
+                  onCancel() {
+                  },
+                });
+              }}
+            >
+              删除
+            </Button>
+
+            <Divider type="vertical" />
+
+            <Button type="link" size="small" disabled={editBtnDisabled}
+              onClick={() => {
+                handleResetPwd(entity);
+              }}>
+              密码重置
+            </Button>
+
+          </>
+
+        )
+      }
     },
   ];
 
@@ -158,7 +218,7 @@ export default () => {
       <ProTable
         actionRef={actionRef}
         size="small"
-        rowKey="id"
+        rowKey="userId"
         dateFormatter="string"
         headerTitle="查询结果"
         // 设置查询表单的size
@@ -217,22 +277,21 @@ export default () => {
       {/* 详情 */}
       <Drawer
         width={600}
-        //style={{ minWidth: 300, maxWidth: 600 }}
         visible={!!row}
         onClose={() => {
           setRow(undefined);
         }}
         closable={false}
       >
-        {row?.id && (
+        {row?.userId && (
           <ProDescriptions
             column={2}
-            title={row?.type}
+            title={row?.userName}
             request={async () => ({
               data: row || {},
             })}
             params={{
-              id: row?.id,
+              id: row?.userId,
             }}
             columns={columns}
           />
@@ -244,7 +303,7 @@ export default () => {
         <UpdateForm
           title={modelTitle}
           onSubmit={async (value) => {
-            const success = await handleUpdate(deviceId, value);
+            const success = await handleUpdate(value);
 
             if (success) {
               handleUpdateModalVisible(false);
@@ -266,4 +325,8 @@ export default () => {
     </PageContainer>
   );
 };
+// 利用connect拿到当前用户
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(TableList);
 

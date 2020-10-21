@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Drawer, Button, Row, Col } from 'antd';
 import { roleDic, branchDic } from '../../dic.config';
+import { visible } from 'chalk';
 
 // 表单项
 const FormItem = Form.Item;
@@ -11,12 +12,19 @@ const { Option } = Select;
 const UpdateForm = (props) => {
     // 用useState将列表页面的值赋给表单属性
     const [formVals, setFormVals] = useState({
-        isAdd: props.values.id == undefined ? true : false,
-        id: props.values.id == undefined ? '' : props.values.id,
-        name: props.values.name,
-        pwd: props.values.pwd,
-        role: props.values.role,
+        isAdd: props.values.userId == undefined ? true : false,
+        userId: props.values.userId == undefined ? '' : props.values.userId,
         branch: props.values.branch,
+        // 新增时，密码默认设置为1
+        password: props.values.userId == undefined ? '1':props.values.password,
+        userName: props.values.userName,
+        name: props.values.name,
+        type: props.values.type,
+        avatar: props.values.avatar,
+        email: props.values.email,
+        mobile: props.values.mobile,
+        status: props.values.status,
+        currentAuthority: props.values.currentAuthority,
         remark: props.values.remark,
     });
 
@@ -53,6 +61,55 @@ const UpdateForm = (props) => {
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="userName"
+                            label="账户"
+                            rules={[{ required: true, message: '请输入账户！' }]}
+                        >
+                            <Input placeholder="请输入" disabled={!formVals.isAdd} />
+                        </FormItem>
+                    </Col>
+
+                    {/* {
+                        // 如果是新增，密码和确认密码需要输入
+                        formVals.isAdd ?
+                            [ */}
+                                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+                                    <FormItem
+                                        name="password"
+                                        label="密码"
+                                        rules={[{ required: true, message: '请输入密码！' }]}
+                                    >
+                                        <Input placeholder="请输入" type="password" />
+                                    </FormItem>
+                                </Col>
+                                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+                                    <FormItem
+                                        name="confirmPwd"
+                                        label="确认密码"
+                                        rules={[{ required: true, message: '请输入确认密码！' }]}
+                                    >
+                                        <Input placeholder="请输入" type="password" />
+                                    </FormItem>
+                                </Col>
+                            {/* ]
+                            : null
+                    } */}
+
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
+                            name="currentAuthority"
+                            label="角色"
+                            rules={[{ required: true, message: '请选择角色！' }]}
+                        >
+                            <Select style={{ width: '100%' }} showSearch >
+                                {roleDic.map(name => (
+                                    <Option key={name} value={name}>{name}</Option>
+                                ))}
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="name"
                             label="用户名"
                             rules={[{ required: true, message: '请输入用户名！' }]}
@@ -62,33 +119,20 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="pwd"
-                            label="密码"
-                            rules={[{ required: true, message: '请输入密码！' }]}
+                            name="mobile"
+                            label="联系电话"
+                        // rules={[{ required: true, message: '请输入联系电话！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="confirmPwd"
-                            label="确认密码"
-                            rules={[{ required: true, message: '请输入确认密码！' }]}
+                            name="email"
+                            label="邮件地址"
+                        // rules={[{ required: true, message: '请输入邮件地址！' }]}
                         >
                             <Input placeholder="请输入" />
-                        </FormItem>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <FormItem
-                            name="role"
-                            label="角色"
-                            rules={[{ required: true, message: '请选择角色！' }]}
-                        >
-                            <Select style={{ width: '100%' }} showSearch >
-                                {roleDic.map(name => (
-                                    <Option key={name} value={name}>{name}</Option>
-                                ))}
-                            </Select>
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -143,11 +187,17 @@ const UpdateForm = (props) => {
                 form={form}
                 size='small'
                 initialValues={{
-                    id: formVals.id,
-                    name: formVals.name,
-                    pwd: formVals.pwd,
-                    role: formVals.role,
+                    userId: formVals.userId,
                     branch: formVals.branch,
+                    password: formVals.password,
+                    userName: formVals.userName,
+                    name: formVals.name,
+                    type: formVals.type,
+                    avatar: formVals.avatar,
+                    email: formVals.email,
+                    mobile: formVals.mobile,
+                    status: formVals.status,
+                    currentAuthority: formVals.currentAuthority,
                     remark: formVals.remark,
                 }}
             >

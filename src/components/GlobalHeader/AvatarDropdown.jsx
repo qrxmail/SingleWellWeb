@@ -5,20 +5,22 @@ import { history, connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
+import { fakeAccountLoginOut } from '../../services/login';
+import { setCurrentUserName, setAuthority } from '@/utils/authority';
+
 class AvatarDropdown extends React.Component {
-  onMenuClick = (event) => {
+  onMenuClick = async (event) => {
     const { key } = event;
 
     if (key === 'logout') {
-      const { dispatch } = this.props;
-
-      if (dispatch) {
-        dispatch({
-          type: 'login/logout',
-        });
+      const response = await fakeAccountLoginOut();
+      // 登出成功
+      if (response.status === 'ok') {
+        // 设置系统当前登录用户为访客
+        setCurrentUserName('guset');
+        setAuthority("guset");
+        window.location.href = '/user/login';
       }
-
-      return;
     }
 
     history.push(`/account/${key}`);
@@ -62,16 +64,16 @@ class AvatarDropdown extends React.Component {
         </span>
       </HeaderDropdown>
     ) : (
-      <span className={`${styles.action} ${styles.account}`}>
-        <Spin
-          size="small"
-          style={{
-            marginLeft: 8,
-            marginRight: 8,
-          }}
-        />
-      </span>
-    );
+        <span className={`${styles.action} ${styles.account}`}>
+          <Spin
+            size="small"
+            style={{
+              marginLeft: 8,
+              marginRight: 8,
+            }}
+          />
+        </span>
+      );
   }
 }
 

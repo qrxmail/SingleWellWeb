@@ -70,7 +70,22 @@ export default defineConfig({
   // @ts-ignore
   title: false,
   ignoreMomentLocale: false,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+
+  // 使用mock接口
+  //proxy: proxy[REACT_APP_ENV || 'dev'],
+
+  // 使用后端接口（nmp start:可以同时访问mock和后台接口，但会优先调用mock接口。npm run start:no-mock 不用mock接口）
+  proxy: {
+    '/api/': { // 代理前缀
+      //target: 'http://localhost:8090/', // 发布环境代理目标地址
+      target: 'http://localhost:44396/',//调试环境
+      changeOrigin: true, // 是否跨域访问
+      pathRewrite: {
+        '^': '',
+      },
+    },
+  },
+
   manifest: {
     basePath: '/',
   },
