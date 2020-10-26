@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Drawer, Button, Row, Col } from 'antd';
-import { roleDic, branchDic } from '../../dic.config';
-import { visible } from 'chalk';
+import { roleDic, factoryDic } from '../../dic.config';
 
 // 表单项
 const FormItem = Form.Item;
@@ -16,7 +15,7 @@ const UpdateForm = (props) => {
         userId: props.values.userId == undefined ? '' : props.values.userId,
         branch: props.values.branch,
         // 新增时，密码默认设置为1
-        password: props.values.userId == undefined ? '1':props.values.password,
+        password: props.values.userId == undefined ? '1' : props.values.password,
         userName: props.values.userName,
         name: props.values.name,
         type: props.values.type,
@@ -73,25 +72,25 @@ const UpdateForm = (props) => {
                         // 如果是新增，密码和确认密码需要输入
                         formVals.isAdd ?
                             [ */}
-                                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
-                                    <FormItem
-                                        name="password"
-                                        label="密码"
-                                        rules={[{ required: true, message: '请输入密码！' }]}
-                                    >
-                                        <Input placeholder="请输入" type="password" />
-                                    </FormItem>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
-                                    <FormItem
-                                        name="confirmPwd"
-                                        label="确认密码"
-                                        rules={[{ required: true, message: '请输入确认密码！' }]}
-                                    >
-                                        <Input placeholder="请输入" type="password" />
-                                    </FormItem>
-                                </Col>
-                            {/* ]
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+                        <FormItem
+                            name="password"
+                            label="密码"
+                            rules={[{ required: true, message: '请输入密码！' }]}
+                        >
+                            <Input placeholder="请输入" type="password" />
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+                        <FormItem
+                            name="confirmPwd"
+                            label="确认密码"
+                            rules={[{ required: true, message: '请输入确认密码！' }]}
+                        >
+                            <Input placeholder="请输入" type="password" />
+                        </FormItem>
+                    </Col>
+                    {/* ]
                             : null
                     } */}
 
@@ -138,11 +137,11 @@ const UpdateForm = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="branch"
-                            label="所属分公司"
+                            label="所属单位"
                         //rules={[{ required: true, message: '请选择！' }]}
                         >
                             <Select style={{ width: '100%' }} showSearch >
-                                {branchDic.map(name => (
+                                {factoryDic.map(name => (
                                     <Option key={name} value={name}>{name}</Option>
                                 ))}
                             </Select>
@@ -204,35 +203,6 @@ const UpdateForm = (props) => {
                 {renderContent()}
             </Form>
         </Drawer>
-        // <Modal
-        //     width={600}
-        //     bodyStyle={{padding: '32px 40px 48px'}}
-        //     destroyOnClose
-        //     title={title}
-        //     visible={updateModalVisible}
-        //     onCancel={() => handleUpdateModalVisible()}
-        //     onOk={() => handleSubmit()}
-        // >
-        //     <Form
-        //         labelCol={{ span: 7 }}
-        //         wrapperCol={{ span: 14 }}
-        //         form={form}
-        //         size='small'
-        //         initialValues={{
-        //             id: formVals.id,
-        //             key: formVals.key,
-        //             happenTime: setTime(formVals.happenTime),
-        //             loss: formVals.loss,
-        //             reason: formVals.reason,
-        //             type: formVals.type,
-        //             analysis: formVals.analysis,
-        //             responsibleStaff: formVals.responsibleStaff,
-        //             remark: formVals.remark,
-        //         }}
-        //     >
-        //         {renderContent()}
-        //     </Form>
-        // </Modal>
     );
 };
 

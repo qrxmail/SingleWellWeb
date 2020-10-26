@@ -17,13 +17,7 @@ const { confirm } = Modal;
 // 新增/修改
 const handleUpdate = async (fields) => {
   const hide = message.loading('正在保存');
-
-  if (fields.password !== fields.confirmPwd) {
-    hide();
-    message.error('密码和确认密码必须相同！');
-    return false;
-  }
-
+ 
   // 将null和空字符串的属性去掉
   Object.keys(fields).forEach((key) => {
     //let tkey = key as keyof typeof fields;
@@ -62,7 +56,7 @@ const handleRemove = async (selectedRows) => {
 
   try {
     await remove({
-      id: selectedRows.map(row => row.userId),
+      id: selectedRows.map(row => row.pk),
     });
 
     hide();
@@ -74,26 +68,6 @@ const handleRemove = async (selectedRows) => {
     return false;
   }
 
-};
-
-// 重置密码
-const handleResetPwd = async (fields) => {
-  const hide = message.loading('正在重置');
-  try {
-    fields.password = "1";
-    let result = await update(fields);
-    hide();
-    if (result.isSuccess) {
-      message.success('重置成功');
-    } else {
-      message.error(result.errMsg);
-    }
-    return result.isSuccess;
-  } catch (error) {
-    hide();
-    message.error('重置失败请重试！');
-    return false;
-  }
 };
 
 const TableList = (props) => {
@@ -109,36 +83,28 @@ const TableList = (props) => {
       valueType: "index",
     },
     {
-      title: "账户",
-      dataIndex: "userName",
-      render: (dom, entity) => {
-        return <a onClick={() => setRow(entity)}>{dom}</a>;
-      },
+      title: "运输公司",
+      dataIndex: "company",
       sorter: true,
     },
     {
-      title: "角色",
-      dataIndex: "currentAuthority",
+      title: "车牌号",
+      dataIndex: "number",
+      sorter: true,
+    },
+    {
+      title: "容量",
+      dataIndex: "volumn",
       hideInSearch: true,
     },
     {
-      title: "用户名",
-      dataIndex: "name",
-      hideInSearch: true,
+      title: "铅封号",
+      dataIndex: "leadSealNumber",
+      sorter: true,
     },
     {
-      title: "联系电话",
-      dataIndex: "mobile",
-      hideInSearch: true,
-    },
-    {
-      title: "邮件地址",
-      dataIndex: "email",
-      hideInSearch: true,
-    },
-    {
-      title: "所属单位",
-      dataIndex: "branch",
+      title: "备注",
+      dataIndex: "remark",
       hideInSearch: true,
     },
     {
@@ -146,11 +112,9 @@ const TableList = (props) => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => {
-        // 系统管理员amdin、自己：不可以删除、不可修改、不可重置
-        let btnDisabled = entity.userName === "admin" || currentUser.userName === entity.userName;
         return (
           <>
-            <Button type="link" size="small" disabled={btnDisabled}
+            <Button type="link" size="small" 
               onClick={() => {
                 handleUpdateModalVisible(true);
                 setFormValues(entity);
@@ -161,7 +125,7 @@ const TableList = (props) => {
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnDisabled}
+            <Button type="link" size="small"
               onClick={() => {
                 // 删除确认
                 confirm({
@@ -182,15 +146,6 @@ const TableList = (props) => {
               }}
             >
               删除
-            </Button>
-
-            <Divider type="vertical" />
-
-            <Button type="link" size="small" disabled={btnDisabled}
-              onClick={() => {
-                handleResetPwd(entity);
-              }}>
-              密码重置
             </Button>
 
           </>
@@ -223,7 +178,7 @@ const TableList = (props) => {
       <ProTable
         actionRef={actionRef}
         size="small"
-        rowKey="userId"
+        rowKey="pk"
         dateFormatter="string"
         headerTitle="查询结果"
         // 设置查询表单的size
@@ -288,15 +243,15 @@ const TableList = (props) => {
         }}
         closable={false}
       >
-        {row?.userId && (
+        {row?.pk && (
           <ProDescriptions
             column={2}
-            title={row?.userName}
+            title={row?.name}
             request={async () => ({
               data: row || {},
             })}
             params={{
-              id: row?.userId,
+              id: row?.name,
             }}
             columns={columns}
           />

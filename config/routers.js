@@ -572,6 +572,42 @@ export const routerConfig =
       "icon": "smile",
       "component": "./role",
       "authority": ["admin"]
+    }, {
+      "key": "/Driver",
+      "path": "Driver",
+      "name": "司机管理",
+      "icon": "smile",
+      "component": "./Driver",
+      "authority": ["admin"]
+    }, {
+      "key": "/Truck",
+      "path": "Truck",
+      "name": "车辆管理",
+      "icon": "smile",
+      "component": "./Truck",
+      "authority": ["admin"]
+    }, {
+      "key": "/OilStation",
+      "path": "OilStation",
+      "name": "站点管理",
+      "icon": "smile",
+      "component": "./OilStation",
+      "authority": ["admin"]
+    }, {
+      "key": "/WorkTicket",
+      "path": "WorkTicket",
+      "name": "工单管理",
+      "icon": "smile",
+      "component": "./WorkTicket",
+      "authority": ["admin"]
+    }, {
+      "key": "/WorkTicketView",
+      "path": 'WorkTicketView',
+      "name": '工单详情',
+      "icon": 'smile',
+      "component": './WorkTicketView',
+      "authority": ['admin', 'user'],
+      "hideInMenu": true,
     }],
     "authority": ["admin"]
   }, {

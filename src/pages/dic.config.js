@@ -67,4 +67,6 @@ export const stockLevelDic = ['选项1', '选项2'];
 
 // 角色
 export const roleDic = ['admin', 'user', '派单员', '加油员', '卸油员', '司机'];
+// 厂名
+export const factoryDic = ['江苏油田采油二厂'];
 
