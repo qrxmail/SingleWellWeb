@@ -24,6 +24,23 @@ export async function update(params) {
   });
 }
 
+// 查询一个
+export async function queryObj(params) {
+  let queryStr = JSON.stringify(params);
+  return request('/api/workticket/query?queryStr='+queryStr);
+}
+
+// 获取工单二维码
+export async function getQRCode(pk) {
+  return request('/api/workticket/getqrcode?gid='+pk);
+}
+
+// 导出报表
+export async function exportReport(params) {
+  let queryStr = JSON.stringify(params);
+  return request('/api/workticket/exportReport?queryStr='+queryStr);
+}
+
 // 接单
 export async function receive(params) {
   return request('/api/workticket/receive', {

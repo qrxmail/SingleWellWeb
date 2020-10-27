@@ -1,10 +1,9 @@
 import { connect } from 'umi';
 import React, { useState, useRef } from "react";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { Button, Drawer, Divider, Modal, message } from "antd";
+import { Button, Divider, Modal, message } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import { routerRedux } from 'dva';
 
 import UpdateForm from './components/UpdateForm';
@@ -174,7 +173,7 @@ const TableList = (props) => {
         return <a onClick={() => {
           dispatch(routerRedux.push({
             pathname: '/SystemManagement/WorkTicketView',
-            query: entity
+            query: { pk: entity.pk }
           }));
         }}>{dom}</a>;
       }
@@ -408,9 +407,6 @@ const TableList = (props) => {
     },
   ];
 
-  // 详情页面传入的参数（选择的行数据）
-  const [row, setRow] = useState();
-
   // 多选按钮选中的行数据
   const [selectedRowsState, setSelectedRows] = useState([]);
 
@@ -447,7 +443,10 @@ const TableList = (props) => {
         }}
         columns={columns}
         // 查询，列表数据请求
-        request={(params, sorter, filter) => query({ ...params, sorter, filter })}
+        request={(params, sorter, filter) => {
+          let status = props.route.name !== "工单管理" ? props.route.name : '';
+          return query({ ...params, status, sorter, filter })
+        }}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
@@ -493,30 +492,6 @@ const TableList = (props) => {
          </Button>
         </FooterToolbar>
       )}
-
-      {/* 详情 */}
-      <Drawer
-        width={600}
-        visible={!!row}
-        onClose={() => {
-          setRow(undefined);
-        }}
-        closable={false}
-      >
-        {row?.pk && (
-          <ProDescriptions
-            column={2}
-            title={row?.name}
-            request={async () => ({
-              data: row || {},
-            })}
-            params={{
-              id: row?.name,
-            }}
-            columns={columns}
-          />
-        )}
-      </Drawer>
 
       {/* 新增/修改:需要先设置初始值，再展示页面，否则初始值设置不生效 */}
       {formValues && Object.keys(formValues).length && updateModalVisible ? (

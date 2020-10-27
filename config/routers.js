@@ -600,6 +600,13 @@ export const routerConfig =
       "icon": "smile",
       "component": "./WorkTicket",
       "authority": ["admin"]
+    },{
+      "key": "/WorkTicketReceive",
+      "path": "WorkTicketReceive",
+      "name": "待接单",
+      "icon": "smile",
+      "component": "./WorkTicket",
+      "authority": ["admin"]
     }, {
       "key": "/WorkTicketView",
       "path": 'WorkTicketView',
@@ -608,6 +615,13 @@ export const routerConfig =
       "component": './WorkTicketView',
       "authority": ['admin', 'user'],
       "hideInMenu": true,
+    }, {
+      "key": "/Reports",
+      "path": 'Reports',
+      "name": '报表',
+      "icon": 'smile',
+      "component": './Reports',
+      "authority": ['admin', 'user'],
     }],
     "authority": ["admin"]
   }, {
