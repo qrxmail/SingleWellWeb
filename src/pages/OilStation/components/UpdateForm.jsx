@@ -75,18 +75,18 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="name"
-                            label="站名"
-                            rules={[{ required: true, message: '请输入站名！' }]}
+                            name="district"
+                            label="管理区"
+                            rules={[{ required: true, message: '请输入管理区！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="district"
-                            label="管理区"
-                            rules={[{ required: true, message: '请输入管理区！' }]}
+                            name="name"
+                            label="站名"
+                            rules={[{ required: true, message: '请输入站名！' }]}
                         >
                             <Input placeholder="请输入" />
                         </FormItem>

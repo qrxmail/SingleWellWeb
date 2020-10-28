@@ -88,13 +88,13 @@ const TableList = (props) => {
       hideInSearch: true,
     },
     {
-      title: "站名",
-      dataIndex: "name",
+      title: "管理区",
+      dataIndex: "district",
       sorter: true,
     },
     {
-      title: "管理区",
-      dataIndex: "district",
+      title: "站名",
+      dataIndex: "name",
       sorter: true,
     },
     {

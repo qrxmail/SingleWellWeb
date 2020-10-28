@@ -44,11 +44,11 @@ const TableList = (props) => {
     },
     {
       title: "装油站",
-      dataIndex: "loadStationDistrict",
+      dataIndex: "loadStationName",
     },
     {
       title: "卸油站",
-      dataIndex: "unloadStationDistrict",
+      dataIndex: "unloadStationName",
     },
     {
       title: "运输公司",
