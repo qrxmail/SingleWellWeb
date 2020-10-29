@@ -24,7 +24,7 @@ const handlePrint = () => {
 }
 
 // 组件定义
-const UpdateForm = (props) => {
+const ViewForm = (props) => {
 
     const {
         // 从路由中获取参数query
@@ -249,4 +249,4 @@ const UpdateForm = (props) => {
     );
 };
 
-export default UpdateForm;
+export default ViewForm;

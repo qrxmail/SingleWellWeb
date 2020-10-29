@@ -14,8 +14,8 @@ import DeviceControll from './components/DeviceControll';
 import '../Common.less';
 
 // 视频监控地址
-const cameraUrl ="http://localhost:8000/live/demo.flv";
- 
+const cameraUrl = "http://localhost:8000/live/demo.flv";
+
 // 定义设备配置信息（id,名称,操作按钮名称，操作按钮名称）
 const deviceConfig = [
   // 打开、关闭指令的设备
@@ -253,7 +253,7 @@ const ViewPage = (props) => {
           <label style={{ display: "inline-block", marginRight: 10, lineHeight: "30px", float: "right", fontWeight: "bolder" }}>{updateTime}</label>
         </Col>
         <Divider style={{ margin: 0 }} />
-        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ textAlign: "center" }}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ textAlign: "center" }} >
           <div style={{ width: "65%", display: "inline-block" }}>
             <ReactSVG id="svgHMI"
               onClick={(e) => onClickSVG(e)}

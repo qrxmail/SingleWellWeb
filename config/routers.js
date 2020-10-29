@@ -629,6 +629,13 @@ export const routerConfig =
       "icon": 'smile',
       "component": './OilStationView',
       "authority": ['admin', 'user'],
+    }, {
+      "key": "/Charts",
+      "path": 'Charts',
+      "name": '总览',
+      "icon": 'smile',
+      "component": './Charts',
+      "authority": ['admin', 'user'],
     }],
     "authority": ["admin"]
   }, {
