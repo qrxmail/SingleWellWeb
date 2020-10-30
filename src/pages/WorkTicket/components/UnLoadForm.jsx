@@ -156,11 +156,11 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="oilLoadedMax"
-                            label="可发油量"
+                            name="oilLoadedMax" 
+                            label="可发油量m³"
                             rules={[{ required: true, message: '请输入可发油量！' }]}
                         >
-                            <InputNumber min={0} max={100000} style={{ width: '100%' }} />
+                            <InputNumber min={0} max={100000} style={{ width: '100%' }} disabled/>
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -209,7 +209,7 @@ const UpdateForm = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="oilLoaded"
-                            label="发油量"
+                            label="发油量m³"
                             rules={[{ required: true, message: '请输入发油量！' }]}
                         >
                             <InputNumber min={0} max={100000} style={{ width: '100%' }}  disabled/>
@@ -242,7 +242,7 @@ const UpdateForm = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="oilUnloaded"
-                            label="卸油量"
+                            label="卸油量m³"
                             rules={[{ required: true, message: '请输入卸油量！' }]}
                         >
                             <InputNumber min={0} max={100000} style={{ width: '100%' }} />

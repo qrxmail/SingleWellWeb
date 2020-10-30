@@ -13,6 +13,7 @@ import UnLoadForm from './components/UnLoadForm';
 import { query, update, add, remove, tovoid, receive, grant, load, unload, review } from './service';
 
 import '../Common.less';
+import { red } from 'chalk';
 
 // 确认对话框
 const { confirm } = Modal;
@@ -211,25 +212,29 @@ const TableList = (props) => {
       dataIndex: "drvierName",
     },
     {
-      title: "装油液量",
+      title: "拉油液量m³",
       dataIndex: "oilLoaded",
       hideInSearch: true,
       valueType: "digit",
     },
     {
-      title: "收油液量",
+      title: "收油液量m³",
       dataIndex: "oilUnloaded",
       hideInSearch: true,
       valueType: "digit",
     },
     {
-      title: "误差率",
+      title: "误差率%",
       dataIndex: "error",
       hideInSearch: true,
       valueType: "percent",
       render: (_, entity) => {
         if (entity.oilLoaded !== 0 && entity.oilUnloaded !== 0) {
-          return (((entity.oilLoaded - entity.oilUnloaded) / entity.oilLoaded) * 100).toFixed(2);
+          let data = (((entity.oilUnloaded - entity.oilLoaded) / entity.oilLoaded) * 100).toFixed(2);
+          if (data > 10 || data < -10){
+            return  (<span style={{color:'red'}}> {data} </span>);
+          }
+          return  data;
         } else {
           return 0;
         }

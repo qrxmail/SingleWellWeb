@@ -112,7 +112,7 @@ const ViewForm = (props) => {
                 <Card title="处理步骤" bordered >
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <TextArea rows={8} placeholder={formValues.description} disabled bordered={false} />
+                            <TextArea rows={6} placeholder={formValues.description} disabled bordered={false} />
                         </Col>
                     </Row>
                 </Card>

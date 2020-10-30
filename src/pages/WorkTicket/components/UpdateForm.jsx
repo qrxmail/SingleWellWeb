@@ -127,7 +127,7 @@ const UpdateForm = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="oilLoadedMax"
-                            label="可发油量"
+                            label="可发油量m³"
                             rules={[{ required: true, message: '请输入可发油量！' }]}
                         >
                             <InputNumber min={0} max={100000} style={{ width: '100%' }} />
