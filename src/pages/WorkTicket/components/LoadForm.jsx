@@ -29,6 +29,7 @@ const UpdateForm = (props) => {
         unloadStationBranch: props.values.unloadStationBranch,
         unloadStationName: props.values.unloadStationName,
         unloadStation: props.values.unloadStation,
+        oilLoadedMax: props.values.oilLoadedMax,
         status: props.values.status,
 
         carNumber: props.values.carNumber,
@@ -121,8 +122,8 @@ const UpdateForm = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="loadtimeRange"
-                            label="装油时间"
-                            rules={[{ required: true, message: '请选择装油时间！' }]}
+                            label="拉油时间"
+                            rules={[{ required: true, message: '请选择拉油时间！' }]}
                         >
                             <DatePicker.RangePicker disabled
                                 showTime={{
@@ -145,6 +146,15 @@ const UpdateForm = (props) => {
                                 expandTrigger="hover"
                                 placeholder="请选择"
                             />
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
+                            name="oilLoadedMax"
+                            label="可发油量"
+                            rules={[{ required: true, message: '请输入可发油量！' }]}
+                        >
+                            <InputNumber min={0} max={100000} style={{ width: '100%' }} />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -252,7 +262,8 @@ const UpdateForm = (props) => {
                     loadtimeRange: (setTime(formVals.loadingBeginTime) !== null && setTime(formVals.loadingEndTime) !== null) ?
                         [setTime(formVals.loadingBeginTime), setTime(formVals.loadingEndTime)] : null,
                     unloadStationName: formVals.unloadStation !== undefined ? [formVals.unloadStationBranch, formVals.unloadStationName, formVals.unloadStation] : null,
-
+                    oilLoadedMax: formVals.oilLoadedMax,
+                    
                     carNumber: formVals.carNumber,
                     driver: formVals.driver,
 

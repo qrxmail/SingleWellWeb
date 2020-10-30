@@ -272,7 +272,7 @@
    x2="443.5"
    y2="153.5"
    id="heater01LocalRemote"
-   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10" />
+   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;cursor:pointer" />
 <line
    class="st11"
    x1="364.5"
@@ -362,7 +362,7 @@
    x2="124.62073"
    y2="578.21979"
    id="loadPumpLocalRemote"
-   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10" />
+   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;cursor:pointer" />
 <line
    class="st11"
    x1="45.620728"
@@ -452,7 +452,7 @@
    x2="592.5"
    y2="153.5"
    id="heater01ManualAuto"
-   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10" />
+   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;cursor:pointer" />
 <line
    class="st11"
    x1="513.5"
@@ -561,7 +561,7 @@
    x2="918.5"
    y2="157.5"
    id="heater02LocalRemote"
-   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10" />
+   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;cursor:pointer" />
 <line
    class="st11"
    x1="839.5"
@@ -643,7 +643,7 @@
    x2="1067.5"
    y2="157.5"
    id="heater02ManualAuto"
-   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10" />
+   style="fill:#ffff00;stroke:#ffff00;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;cursor:pointer" />
 <line
    class="st11"
    x1="988.5"
@@ -720,12 +720,12 @@
    width="131"
    height="38"
    id="heater01"
-   style="fill:#03e6e6;stroke:#000000;stroke-miterlimit:10;fill-opacity:1" />
+   style="fill:#03e6e6;stroke:#000000;stroke-miterlimit:10;fill-opacity:1;cursor:pointer" />
 
 <g
    id="outValve"
    transform="translate(-0.0999878,-1)"
-   style="fill:#8defef;fill-opacity:1"><ellipse
+   style="fill:#8defef;fill-opacity:1;cursor:pointer"><ellipse
      id="ellipse333"
      ry="30.5"
      rx="32.200001"
@@ -745,7 +745,7 @@
 
 <g
    id="loopValve"
-   style="fill:#00e6e6;fill-opacity:1"><ellipse
+   style="fill:#00e6e6;fill-opacity:1;cursor:pointer"><ellipse
      id="ellipse343"
      ry="33.599998"
      rx="30.4"
@@ -769,7 +769,7 @@
    width="130"
    height="38"
    id="heater02"
-   style="fill:#00e6e6;stroke:#000000;stroke-miterlimit:10;fill-opacity:1" />
+   style="fill:#00e6e6;stroke:#000000;stroke-miterlimit:10;fill-opacity:1;cursor:pointer" />
 <polyline
    class="st7"
    points="535,596 535,652 568,631 596,652 621,631 648,652 648,595 "
@@ -1317,7 +1317,7 @@
    width="98"
    height="62"
    id="loadPump"
-   style="fill:#8defef;fill-opacity:1;stroke:#000000;stroke-miterlimit:10" /><rect
+   style="fill:#8defef;fill-opacity:1;stroke:#000000;stroke-miterlimit:10;cursor:pointer" /><rect
    x="339.54901"
    y="435.17542"
    class=""

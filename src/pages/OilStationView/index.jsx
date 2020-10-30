@@ -45,6 +45,8 @@ const ViewPage = (props) => {
     currentUser,
     dispatch,
     oilStationData,
+    // 从路由中获取参数query
+    location: { query }
   } = props;
 
   useEffect(() => {
@@ -89,7 +91,7 @@ const ViewPage = (props) => {
 
     // 从配置文件中找是否有可控制的设备
     let option = deviceConfig.filter((config) => {
-      return config.targetId === e.target.id;
+      return (config.targetId === e.target.id) || (config.targetId === e.target.parentNode.id);
     });
     if (option.length > 0) {
       setControlOption(option[0]);
@@ -240,12 +242,13 @@ const ViewPage = (props) => {
   // 绘制页面
   return (
     <PageContainer>
-      <Row style={{ backgroundColor: "white" }}>
+      <Row style={{ backgroundColor: "white",paddingBottom:40 }}>
         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ padding: 10 }}>
           <Cascader style={{ width: 300 }}
             options={oilStationData}
             expandTrigger="hover"
             placeholder="请选择"
+            defaultValue={[query.branch, query.district, query.pk]}
           />
           <Button key="show" type="primary" style={{ marginLeft: 10 }} onClick={() => { setCameraVisible(!cameraVisible) }} >
             监控画面

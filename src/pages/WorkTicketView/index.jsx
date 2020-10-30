@@ -57,11 +57,11 @@ const ViewForm = (props) => {
 
     // 工单流程步骤
     const WorkFlowSteps = [
-        { title: "创建工单", description: "创建工单。" },
+        { title: "创建工单", description: "创建工单：选择装油站、卸油站、设定拉油时间、可发油量。" },
         { title: "接单", description: "分派车辆和司机。" },
-        { title: "授权", description: "核实拉油车辆和司机，授权拉油。" },
-        { title: "拉油", description: "给拉油车辆装油，填写装油时间、装油量。" },
-        { title: "卸油", description: "收油站收油，填写卸油时间、收油量。" },
+        { title: "授权", description: "核对拉油车辆和司机，授权拉油。" },
+        { title: "拉油", description: "给拉油车辆发油，填写发油时间、发油量。" },
+        { title: "卸油", description: "收油站收油，填写卸油时间、收油量、核对铅封号。" },
         { title: "审批", description: "管理区审批。" },
         { title: "已完成", description: "拉油完成，流程结束。" }];
 
@@ -139,7 +139,7 @@ const ViewForm = (props) => {
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <FormItem
-                                label="装油时间"
+                                label="拉油时间"
                             >
                                 {loadtimeRange}
                             </FormItem>

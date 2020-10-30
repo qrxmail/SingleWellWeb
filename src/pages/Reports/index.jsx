@@ -36,7 +36,7 @@ const TableList = (props) => {
       render: (dom, entity) => {
         return <a onClick={() => {
           dispatch(routerRedux.push({
-            pathname: '/SystemManagement/WorkTicketView',
+            pathname: '/WorkTicketView',
             query: { pk: entity.pk }
           }));
         }}>{dom}</a>;

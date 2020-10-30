@@ -5,6 +5,7 @@ import { Button, Drawer, Divider, Modal, message } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import { routerRedux } from 'dva';
 
 import UpdateForm from './components/UpdateForm';
 import { query, update, add, remove } from './service';
@@ -17,7 +18,7 @@ const { confirm } = Modal;
 // 新增/修改
 const handleUpdate = async (fields) => {
   const hide = message.loading('正在保存');
- 
+
   // 将null和空字符串的属性去掉
   Object.keys(fields).forEach((key) => {
     //let tkey = key as keyof typeof fields;
@@ -73,7 +74,8 @@ const handleRemove = async (selectedRows) => {
 const TableList = (props) => {
   // 将当前用户加入到props中
   const {
-    currentUser
+    currentUser,
+    dispatch
   } = props;
 
   // 列表的列属性
@@ -96,6 +98,15 @@ const TableList = (props) => {
       title: "站名",
       dataIndex: "name",
       sorter: true,
+      // 打开详情页面
+      render: (dom, entity) => {
+        return <a onClick={() => {
+          dispatch(routerRedux.push({
+            pathname: '/OilStationView',
+            query: { pk: entity.pk, branch: entity.branch, district: entity.district, name: entity.name }
+          }));
+        }}>{dom}</a>;
+      }
     },
     {
       title: "PLC IP",
@@ -164,7 +175,7 @@ const TableList = (props) => {
       render: (_, entity) => {
         return (
           <>
-            <Button type="link" size="small" 
+            <Button type="link" size="small"
               onClick={() => {
                 handleUpdateModalVisible(true);
                 setFormValues(entity);

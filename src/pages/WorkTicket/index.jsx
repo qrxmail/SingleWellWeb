@@ -172,7 +172,7 @@ const TableList = (props) => {
       render: (dom, entity) => {
         return <a onClick={() => {
           dispatch(routerRedux.push({
-            pathname: '/SystemManagement/WorkTicketView',
+            pathname: '/WorkTicketView',
             query: { pk: entity.pk }
           }));
         }}>{dom}</a>;
@@ -444,7 +444,7 @@ const TableList = (props) => {
         columns={columns}
         // 查询，列表数据请求
         request={(params, sorter, filter) => {
-          let status = props.route.name !== "工单管理" ? props.route.name : '';
+          let status = props.route.name !== "全部工单" ? props.route.name : '';
           return query({ ...params, status, sorter, filter })
         }}
         rowSelection={{

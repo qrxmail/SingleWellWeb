@@ -13,37 +13,33 @@ const ChartsForm = (props) => {
     // 柱状图数据
     const columnData = [
         {
-            type: '家具家电',
+            type: '星期一',
             sales: 38,
         },
         {
-            type: '粮油副食',
+            type: '星期二',
             sales: 52,
         },
         {
-            type: '生鲜水果',
+            type: '星期三',
             sales: 61,
         },
         {
-            type: '美容洗护',
+            type: '星期四',
             sales: 145,
         },
         {
-            type: '母婴用品',
+            type: '星期五',
             sales: 48,
         },
         {
-            type: '进口食品',
+            type: '星期六',
             sales: 38,
         },
         {
-            type: '食品饮料',
+            type: '星期日',
             sales: 38,
-        },
-        {
-            type: '家庭清洁',
-            sales: 38,
-        },
+        }
     ];
     // 柱状图配置
     const columnConfig = {
@@ -52,10 +48,10 @@ const ChartsForm = (props) => {
         yField: 'sales',
         meta: {
             type: {
-                alias: '类别',
+                alias: '日期',
             },
             sales: {
-                alias: '销售额',
+                alias: '产量',
             },
         },
         annotations: [
@@ -63,12 +59,12 @@ const ChartsForm = (props) => {
                 type: 'region',
                 start: xScale => {
                     const ratio = xScale.ticks ? 1 / xScale.ticks.length : 1;
-                    const x = xScale.scale('美容洗护') - ratio / 2;
+                    const x = xScale.scale('星期四') - ratio / 2;
                     return [`${x * 100}%`, '0%'];
                 },
                 end: xScale => {
                     const ratio = xScale.ticks ? 1 / xScale.ticks.length : 1;
-                    const x = xScale.scale('美容洗护') + ratio / 2;
+                    const x = xScale.scale('星期四') + ratio / 2;
                     return [`${x * 100}%`, '100%'];
                 },
                 style: {
@@ -77,8 +73,8 @@ const ChartsForm = (props) => {
             },
             {
                 type: 'text',
-                position: ['美容洗护', 'max'],
-                content: '最大销售量',
+                position: ['星期四', 'max'],
+                content: '最大产量',
                 style: {
                     textAlign: 'center',
                     textBaseline: 'top',
@@ -89,29 +85,29 @@ const ChartsForm = (props) => {
 
     
     // 饼图数据
-    const pieData = [
+    const pieData = [ 
         {
-            type: '分类一',
+            type: '天93',
             value: 27,
         },
         {
-            type: '分类二',
+            type: '天94',
             value: 25,
         },
         {
-            type: '分类三',
+            type: '天95',
             value: 18,
         },
         {
-            type: '分类四',
+            type: '天96',
             value: 15,
         },
         {
-            type: '分类五',
+            type: '天97',
             value: 10,
         },
         {
-            type: '其他',
+            type: '天98',
             value: 5,
         },
     ];

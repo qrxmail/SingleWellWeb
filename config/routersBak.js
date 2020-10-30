@@ -1,39 +1,39 @@
 
-export const routerConfig =
+export const routerConfigBak =
   [{
     "key": "/welcome",
     "path": "/welcome",
     "name": "首页",
     "icon": "smile",
     "component": "./Welcome",
-    "authority": ["admin"]
+    "authority": ["admin", "user"]
   }, {
     "key": "/list",
     "path": "/list",
     "name": "表格实例",
     "icon": "table",
     "component": "./ListTableList",
-    "authority": ["admin"]
+    "authority": ["admin", "user"]
   }, {
     "key": "/DeviceManagement",
     "path": "/DeviceManagement",
     "name": "设备管理",
     "icon": "crown",
-    "authority": ["admin"],
+    "authority": ["admin", "user"],
     "routes": [{
       "key": "/DeviceManagement/ProductDevice",
       "path": "ProductDevice",
       "name": "生产设备及档案",
       "icon": "smile",
       "component": "./DeviceManagement/ProductDevice/index",
-      "authority": ["admin"]
+      "authority": ["admin", "user"]
     }, {
       "key": "/DeviceManagement/PressureVesselDevice",
       "path": "PressureVesselDevice",
       "name": "压力容器",
       "icon": "smile",
       "component": "./DeviceManagement/PressureVesselDevice/index",
-      "authority": ["admin"]
+      "authority": ["admin", "user"]
     }, {
       "key": "/DeviceManagement/PressurePipeDevice",
       "path": "PressurePipeDevice",
@@ -554,108 +554,6 @@ export const routerConfig =
     }],
     "authority": ["admin"]
   }, {
-    "key": "/Charts",
-    "path": "Charts",
-    "name": "总览",
-    "icon": "smile",
-    "component": "./Charts",
-    "authority": ["admin", "user"]
-  }, {
-    "key": "/OilStationView",
-    "path": "OilStationView",
-    "name": "站点浏览",
-    "icon": "smile",
-    "component": "./OilStationView",
-    "authority": ["admin", "user"],
-    "hideInMenu": true
-  }, {
-    "key": "/WorkTicketView",
-    "path": "WorkTicketView",
-    "name": "工单详情",
-    "icon": "smile",
-    "component": "./WorkTicketView",
-    "authority": ["admin", "user"],
-    "hideInMenu": true
-  }, {
-    "key": "/OilStation",
-    "path": "OilStation",
-    "name": "站点管理",
-    "icon": "smile",
-    "component": "./OilStation",
-    "authority": ["admin", "user"]
-  }, {
-    "key": "/WorkTicket",
-    "path": "WorkTicket",
-    "name": "工单管理",
-    "icon": "smile",
-    "authority": ["admin", "user"],
-    "routes": [
-      {
-        "key": "/WorkTicketList",
-        "path": "WorkTicketList",
-        "name": "全部工单",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"],
-      }, {
-        "key": "/WorkTicketGrant",
-        "path": "WorkTicketGrant",
-        "name": "待授权",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"]
-      }, {
-        "key": "/WorkTicketReceive",
-        "path": "WorkTicketReceive",
-        "name": "待接单",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"]
-      }, {
-        "key": "/WorkTicketLoad",
-        "path": "WorkTicketLoad",
-        "name": "待拉油",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"]
-      }, {
-        "key": "/WorkTicketUnLoad",
-        "path": "WorkTicketUnLoad",
-        "name": "待卸油",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"]
-      }, {
-        "key": "/WorkTicketReview",
-        "path": "WorkTicketReview",
-        "name": "待审批",
-        "icon": "smile",
-        "component": "./WorkTicket",
-        "authority": ["admin", "user"]
-      },
-    ]
-  }, {
-    "key": "/Driver",
-    "path": "Driver",
-    "name": "司机管理",
-    "icon": "smile",
-    "component": "./Driver",
-    "authority": ["admin", "user"]
-  }, {
-    "key": "/Truck",
-    "path": "Truck",
-    "name": "车辆管理",
-    "icon": "smile",
-    "component": "./Truck",
-    "authority": ["admin", "user"]
-  }, {
-    "key": "/Reports",
-    "path": "Reports",
-    "name": "报表",
-    "icon": "smile",
-    "component": "./Reports",
-    "authority": ["admin", "user"]
-  }, {
     "key": "/SystemManagement",
     "path": "/SystemManagement",
     "name": "系统管理",
@@ -674,12 +572,76 @@ export const routerConfig =
       "icon": "smile",
       "component": "./role",
       "authority": ["admin"]
+    }, {
+      "key": "/Driver",
+      "path": "Driver",
+      "name": "司机管理",
+      "icon": "smile",
+      "component": "./Driver",
+      "authority": ["admin"]
+    }, {
+      "key": "/Truck",
+      "path": "Truck",
+      "name": "车辆管理",
+      "icon": "smile",
+      "component": "./Truck",
+      "authority": ["admin"]
+    }, {
+      "key": "/OilStation",
+      "path": "OilStation",
+      "name": "站点管理",
+      "icon": "smile",
+      "component": "./OilStation",
+      "authority": ["admin"]
+    }, {
+      "key": "/WorkTicket",
+      "path": "WorkTicket",
+      "name": "工单管理",
+      "icon": "smile",
+      "component": "./WorkTicket",
+      "authority": ["admin"]
+    },{
+      "key": "/WorkTicketReceive",
+      "path": "WorkTicketReceive",
+      "name": "待接单",
+      "icon": "smile",
+      "component": "./WorkTicket",
+      "authority": ["admin"]
+    }, {
+      "key": "/WorkTicketView",
+      "path": 'WorkTicketView',
+      "name": '工单详情',
+      "icon": 'smile',
+      "component": './WorkTicketView',
+      "authority": ['admin', 'user'],
+      "hideInMenu": true,
+    }, {
+      "key": "/Reports",
+      "path": 'Reports',
+      "name": '报表',
+      "icon": 'smile',
+      "component": './Reports',
+      "authority": ['admin', 'user'],
+    }, {
+      "key": "/OilStationView",
+      "path": 'OilStationView',
+      "name": '站点浏览',
+      "icon": 'smile',
+      "component": './OilStationView',
+      "authority": ['admin', 'user'],
+    }, {
+      "key": "/Charts",
+      "path": 'Charts',
+      "name": '总览',
+      "icon": 'smile',
+      "component": './Charts',
+      "authority": ['admin', 'user'],
     }],
     "authority": ["admin"]
   }, {
     "key": "/",
     "path": "/",
-    "redirect": "/Charts"
+    "redirect": "/welcome"
   }, {
     "key": "/index.html",
     "path": "/index.html",
