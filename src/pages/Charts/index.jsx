@@ -172,7 +172,7 @@ const ChartsForm = (props) => {
                                 </Col>
                                 <Col span={24}>
                                     <Tooltip title="3 done / 3 in progress / 4 to do">
-                                        <Progress percent={60} successPercent={30} />
+                                        <Progress percent={60} percent={30} />
                                     </Tooltip>
                                 </Col>
                             </Row>

@@ -676,6 +676,13 @@ export const routerConfig =
       "authority": ["admin"]
     }],
     "authority": ["admin"]
+  },  {
+    "key": "/HrefCMS",
+    "path": "HrefCMS",
+    "name": "测试",
+    "icon": "smile",
+    "component": "./HrefCMS",
+    "authority": ["admin", "user"]
   }, {
     "key": "/",
     "path": "/",

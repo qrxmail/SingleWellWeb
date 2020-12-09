@@ -112,7 +112,14 @@ const BasicLayout = (props) => {
         if (menuItemProps.isUrl || !menuItemProps.path) {
           return defaultDom;
         }
-
+        // return (
+        //   // 跳转到外链地址
+        //   menuItemProps.path.indexOf('/WorkTicketList') !== -1 ?
+        //     <a onClick={handleMenuCollapse} href='https://ant.design/components/drawer-cn/'>
+        //       {defaultDom}
+        //     </a> :
+        //     <Link to={menuItemProps.path}>{defaultDom}</Link>
+        // )
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
       breadcrumbRender={(routers = []) => [
@@ -129,8 +136,8 @@ const BasicLayout = (props) => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-          <span>{route.breadcrumbName}</span>  
-        );
+            <span>{route.breadcrumbName}</span>
+          );
       }}
       footerRender={() => defaultFooterDom}
       menuDataRender={menuDataRender}

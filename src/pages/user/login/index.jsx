@@ -41,7 +41,6 @@ const Login = (props) => {
 
           <UserName
             name="userName"
-            placeholder="用户名: admin or user"
             rules={[
               {
                 required: true,
@@ -51,7 +50,6 @@ const Login = (props) => {
           />
           <Password
             name="password"
-            placeholder="密码: ant.design"
             rules={[
               {
                 required: true,

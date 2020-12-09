@@ -203,9 +203,12 @@ const UpdateForm = (props) => {
         );
     };
 
+    // 设置抽屉页面的宽度
+    let drawWidth = document.body.clientWidth < 900 ? '100%' : 600;
+
     return (
         <Drawer
-            width={600}
+            width={drawWidth}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}
@@ -248,6 +251,7 @@ const UpdateForm = (props) => {
                 {renderContent()}
             </Form>
         </Drawer>
+
     );
 };
 
