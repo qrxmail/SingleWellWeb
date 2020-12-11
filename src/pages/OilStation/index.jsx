@@ -172,42 +172,41 @@ const TableList = (props) => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      fixed: 'right',
       render: (_, entity) => {
         return (
           <>
-            <Button type="link" size="small"
-              onClick={() => {
-                handleUpdateModalVisible(true);
-                setFormValues(entity);
-                setModelTitle("修改");
-              }}>
+            <a onClick={() => {
+              handleUpdateModalVisible(true);
+              setFormValues(entity);
+              setModelTitle("修改");
+            }}>
               修改
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small"
-              onClick={() => {
-                // 删除确认
-                confirm({
-                  title: '您确定要删除这条记录吗?',
-                  icon: <ExclamationCircleOutlined />,
-                  content: '',
-                  onOk() {
-                    var delRows = [];
-                    delRows.push(entity);
-                    handleRemove(delRows);
-                    if (actionRef.current) {
-                      actionRef.current.reload();
-                    }
-                  },
-                  onCancel() {
-                  },
-                });
-              }}
+            <a onClick={() => {
+              // 删除确认
+              confirm({
+                title: '您确定要删除这条记录吗?',
+                icon: <ExclamationCircleOutlined />,
+                content: '',
+                onOk() {
+                  var delRows = [];
+                  delRows.push(entity);
+                  handleRemove(delRows);
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
+                },
+                onCancel() {
+                },
+              });
+            }}
             >
               删除
-            </Button>
+            </a>
 
           </>
 

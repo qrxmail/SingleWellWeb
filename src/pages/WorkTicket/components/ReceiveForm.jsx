@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Drawer, Button, Cascader, DatePicker, InputNumber, Select, Row, Col } from 'antd';
 import moment from 'moment';
+import { drawWidth, setTime} from '../../common';
 
 // 表单项
 const FormItem = Form.Item;
@@ -63,11 +64,6 @@ const UpdateForm = (props) => {
             });
         }
     }, []);
-
-    // 将时间格式化为moment或者null
-    const setTime = (timeStr) => {
-        return (timeStr === '0001-01-01T00:00:00' || timeStr === undefined || timeStr === null) ? null : moment(timeStr, 'YYYY年MM月DD日 HH:mm:ss')
-    }
 
     // 提交事件
     const handleSubmit = async () => {
@@ -187,7 +183,7 @@ const UpdateForm = (props) => {
 
     return (
         <Drawer
-            width={600}
+            width={drawWidth(600)}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}

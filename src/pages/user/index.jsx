@@ -5,6 +5,7 @@ import { Button, Drawer, Divider, Modal, message } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import { drawWidth } from '../common';
 
 import UpdateForm from './components/UpdateForm';
 import { query, update, add, remove } from './service';
@@ -145,23 +146,24 @@ const TableList = (props) => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      fixed: 'right',
       render: (_, entity) => {
         // 系统管理员amdin、自己：不可以删除、不可修改、不可重置
         let btnDisabled = entity.userName === "admin" || currentUser.userName === entity.userName;
         return (
           <>
-            <Button type="link" size="small" disabled={btnDisabled}
+            <a disabled={btnDisabled}
               onClick={() => {
                 handleUpdateModalVisible(true);
                 setFormValues(entity);
                 setModelTitle("修改");
               }}>
               修改
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnDisabled}
+            <a disabled={btnDisabled}
               onClick={() => {
                 // 删除确认
                 confirm({
@@ -182,16 +184,16 @@ const TableList = (props) => {
               }}
             >
               删除
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnDisabled}
+            <a disabled={btnDisabled}
               onClick={() => {
                 handleResetPwd(entity);
               }}>
               密码重置
-            </Button>
+            </a>
 
           </>
 
@@ -281,15 +283,18 @@ const TableList = (props) => {
 
       {/* 详情 */}
       <Drawer
-        width={600}
+        width={drawWidth(600)}
+        bodyStyle={{ padding: 0 }}
         visible={!!row}
+        destroyOnClose
         onClose={() => {
           setRow(undefined);
         }}
-        closable={false}
+        closable={true}
       >
         {row?.userId && (
           <ProDescriptions
+            style={{ padding: 40 }}
             column={2}
             title={row?.userName}
             request={async () => ({

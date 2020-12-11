@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Drawer, Button, Row, Col } from 'antd';
+import { drawWidth } from '../../common';
 
 // 表单项
 const FormItem = Form.Item;
@@ -80,7 +81,7 @@ const UpdateForm = (props) => {
 
     return (
         <Drawer
-            width={600}
+            width={drawWidth(600)}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}

@@ -13,7 +13,6 @@ import UnLoadForm from './components/UnLoadForm';
 import { query, update, add, remove, tovoid, receive, grant, load, unload, review } from './service';
 
 import '../Common.less';
-import { red } from 'chalk';
 
 // 确认对话框
 const { confirm } = Modal;
@@ -205,11 +204,11 @@ const TableList = (props) => {
     },
     {
       title: "车牌号",
-      dataIndex: "truckNo",
+      dataIndex: "carNumber",
     },
     {
       title: "司机",
-      dataIndex: "drvierName",
+      dataIndex: "driver",
     },
     {
       title: "拉油液量m³",
@@ -231,10 +230,10 @@ const TableList = (props) => {
       render: (_, entity) => {
         if (entity.oilLoaded !== 0 && entity.oilUnloaded !== 0) {
           let data = (((entity.oilUnloaded - entity.oilLoaded) / entity.oilLoaded) * 100).toFixed(2);
-          if (data > 10 || data < -10){
-            return  (<span style={{color:'red'}}> {data} </span>);
+          if (data > 10 || data < -10) {
+            return (<span style={{ color: 'red' }}> {data} </span>);
           }
-          return  data;
+          return data;
         } else {
           return 0;
         }
@@ -278,6 +277,7 @@ const TableList = (props) => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      fixed: 'right',
       render: (_, entity) => {
         let btnIsDisabledEdit = (entity.status !== '待接单' && entity.status !== '待授权');
         let btnIsDisabledDel = (entity.status !== '待接单' && entity.status !== '待授权' && entity.status !== "已作废");
@@ -285,18 +285,18 @@ const TableList = (props) => {
         let btnIsDisabledOper = (entity.status === "已作废" || entity.status === "已完成");
         return (
           <>
-            <Button type="link" size="small" disabled={btnIsDisabledEdit}
+            <a disabled={btnIsDisabledEdit}
               onClick={() => {
                 handleUpdateModalVisible(true);
                 setFormValues(entity);
                 setModelTitle("修改");
               }}>
               修改
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnIsDisabledDel}
+            <a disabled={btnIsDisabledDel}
               onClick={() => {
                 // 删除确认
                 confirm({
@@ -317,11 +317,11 @@ const TableList = (props) => {
               }}
             >
               删除
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnIsDisabledVoid}
+            <a disabled={btnIsDisabledVoid}
               onClick={() => {
                 // 作废
                 confirm({
@@ -342,11 +342,11 @@ const TableList = (props) => {
               }}
             >
               作废
-            </Button>
+            </a>
 
             <Divider type="vertical" />
 
-            <Button type="link" size="small" disabled={btnIsDisabledOper}
+            <a disabled={btnIsDisabledOper}
               onClick={() => {
                 let success = false;
                 switch (entity.status) {
@@ -404,7 +404,7 @@ const TableList = (props) => {
                 }
               }}>
               办理
-            </Button>
+            </a>
 
           </>
         )
@@ -467,7 +467,7 @@ const TableList = (props) => {
             新增
           </Button>
         ]}
-      //scroll={{ x: 4000 }}
+        scroll={{ x: 'max-content' }}
       />
 
       {selectedRowsState?.length > 0 && (

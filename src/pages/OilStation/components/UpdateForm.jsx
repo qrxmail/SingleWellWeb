@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, InputNumber, Drawer, Button, Select, Divider, Row, Col } from 'antd';
 
 import { factoryDic } from '../../dic.config';
+import { drawWidth } from '../../common';
 
 // 表单项
 const FormItem = Form.Item;
@@ -203,12 +204,9 @@ const UpdateForm = (props) => {
         );
     };
 
-    // 设置抽屉页面的宽度
-    let drawWidth = document.body.clientWidth < 900 ? '100%' : 600;
-
     return (
         <Drawer
-            width={drawWidth}
+            width={drawWidth(600)}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}

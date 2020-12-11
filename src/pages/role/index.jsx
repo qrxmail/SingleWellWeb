@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
-import { Form, Select, Button, Row, Col, Tree } from 'antd';
+import { Form, Input,Select, Button, Row, Col, Tree } from 'antd';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import { roleDic } from '../dic.config';
 import { routerConfig } from '../../../config/routers';
 
 // 表单项
 const FormItem = Form.Item;
+const { TextArea } = Input;
 const { Option } = Select;
 
 // 组件定义
@@ -107,7 +108,7 @@ export default () => {
 
         // 设置节目显示的路由值
         setConfigStr(newRouterConfig);
-
+        //form.setFieldsValue({config:JSON.stringify(newRouterConfig, null, 4)});
         //console.log("newRouterConfig", JSON.stringify(newRouterConfig));
 
         setLoading(false);
@@ -212,7 +213,8 @@ export default () => {
 
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         生成的新的路由配置，格式化后，替换routers.js中的routerConfig值：<br />
-                        {JSON.stringify(configStr)}
+                        {/* {JSON.stringify(configStr, null, 4)} */}
+                        <TextArea rows={20} value={JSON.stringify(configStr, null, 4)}/>
                     </Col>
                 </Row>
                 <FooterToolbar>

@@ -40,7 +40,8 @@ const TableList = (props) => {
             query: { pk: entity.pk }
           }));
         }}>{dom}</a>;
-      }
+      },
+      fixed: 'left',
     },
     {
       title: "装油站",
@@ -57,11 +58,11 @@ const TableList = (props) => {
     },
     {
       title: "车牌号",
-      dataIndex: "truckNo",
+      dataIndex: "carNumber",
     },
     {
       title: "司机",
-      dataIndex: "drvierName",
+      dataIndex: "driver",
     },
     {
       title: "装油前空高m",
@@ -135,10 +136,10 @@ const TableList = (props) => {
       render: (_, entity) => {
         if (entity.oilLoaded !== 0 && entity.oilUnloaded !== 0) {
           let data = (((entity.oilUnloaded - entity.oilLoaded) / entity.oilLoaded) * 100).toFixed(2);
-          if (data > 10 || data < -10){
-            return  (<span style={{color:'red'}}> {data} </span>);
+          if (data > 10 || data < -10) {
+            return (<span style={{ color: 'red' }}> {data} </span>);
           }
-          return  data;
+          return data;
         } else {
           return 0;
         }
@@ -243,7 +244,7 @@ const TableList = (props) => {
             导出
           </Button>
         ]}
-      //scroll={{ x: 4000 }}
+        scroll={{ x: 'max-content' }}
       />
 
     </PageContainer>

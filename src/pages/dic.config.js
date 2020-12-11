@@ -66,7 +66,7 @@ export const isOrNotDic = ['是', '否'];
 export const stockLevelDic = ['选项1', '选项2'];
 
 // 角色
-export const roleDic = ['admin', 'user', '派单员', '加油员', '卸油员', '司机'];
+export const roleDic = ['admin', 'user', '调度中心', '卸油员', '管理区'];
 // 厂名
 export const factoryDic = ['江苏油田采油二厂'];
 

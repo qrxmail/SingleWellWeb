@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Drawer, Button, Row, Col } from 'antd';
 import { roleDic, factoryDic } from '../../dic.config';
+import { drawWidth } from '../../common';
 
 // 表单项
 const FormItem = Form.Item;
@@ -163,7 +164,7 @@ const UpdateForm = (props) => {
 
     return (
         <Drawer
-            width={600}
+            width={drawWidth(600)}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}

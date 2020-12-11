@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Steps, Card, Row, Col } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
-import moment from 'moment';
 import QRCode from "qrcode.react";
 import PrintJS from "print-js";
+import { setTime } from '../common';
 
 import { queryObj, getQRCode } from "../WorkTicket/service";
 
@@ -50,16 +50,11 @@ const ViewForm = (props) => {
         });
     }, [query.pk]);
 
-    // 将时间格式化为moment或者null
-    const setTime = (timeStr) => {
-        return (timeStr === '0001-01-01T00:00:00' || timeStr === undefined || timeStr === null) ? null : moment(timeStr, 'YYYY年MM月DD日 HH:mm:ss')
-    }
-
     // 工单流程步骤
     const WorkFlowSteps = [
         { title: "创建工单", description: "创建工单：选择装油站、卸油站、设定拉油时间、可发油量。" },
-        { title: "接单", description: "分派车辆和司机。" },
-        { title: "授权", description: "核对拉油车辆和司机，授权拉油。" },
+        // { title: "接单", description: "分派车辆和司机。" },
+        // { title: "授权", description: "核对拉油车辆和司机，授权拉油。" },
         { title: "拉油", description: "给拉油车辆发油，填写发油时间、发油量。" },
         { title: "卸油", description: "收油站收油，填写卸油时间、收油量、核对铅封号。" },
         { title: "审批", description: "管理区审批。" },
@@ -155,14 +150,14 @@ const ViewForm = (props) => {
                             <FormItem
                                 label="车牌号"
                             >
-                                {formValues.truckNo}
+                                {formValues.carNumber}
                             </FormItem>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <FormItem
                                 label="司机"
                             >
-                                {formValues.drvierName}
+                                {formValues.driver}
                             </FormItem>
                         </Col>
 

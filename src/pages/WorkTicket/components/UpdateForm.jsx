@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Form, Input, Drawer, Button, Cascader, InputNumber, DatePicker, Row, Col } from 'antd';
+import { Form, Input, Drawer, Button, Cascader, InputNumber, DatePicker, Select, Row, Col, AutoComplete } from 'antd';
 import moment from 'moment';
+import { drawWidth, setTime} from '../../common';
 
 // 表单项
 const FormItem = Form.Item;
 const { TextArea } = Input;
+const { Option } = Select;
 
 // 组件定义
 const UpdateForm = (props) => {
@@ -23,6 +25,8 @@ const UpdateForm = (props) => {
         unloadStationName: props.values.unloadStationName,
         unloadStation: props.values.unloadStation,
         oilLoadedMax: props.values.oilLoadedMax,
+        carNumber: props.values.carNumber,
+        driver: props.values.driver,
         status: props.values.status,
         remark: props.values.remark,
     });
@@ -41,6 +45,8 @@ const UpdateForm = (props) => {
         title,
         dispatch,
         oilStationData,
+        truckData,
+        driverData,
     } = props;
 
     useEffect(() => {
@@ -48,13 +54,14 @@ const UpdateForm = (props) => {
             dispatch({
                 type: 'common/fetchOilStationData',
             });
+            dispatch({
+                type: 'common/fetchTruckData',
+            });
+            dispatch({
+                type: 'common/fetchDriverData',
+            });
         }
     }, []);
-
-    // 将时间格式化为moment或者null
-    const setTime = (timeStr) => {
-        return (timeStr === '0001-01-01T00:00:00' || timeStr === undefined || timeStr === null) ? null : moment(timeStr, 'YYYY年MM月DD日 HH:mm:ss')
-    }
 
     // 提交事件
     const handleSubmit = async () => {
@@ -135,6 +142,34 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="carNumber"
+                            label="车辆"
+                            rules={[{ required: true, message: '请选择车辆！' }]}
+                        >
+                            <AutoComplete placeholder="请输入或选择" filterOption options={truckData.map((item) => ({ value: item.text }))} />
+                            {/* <Select style={{ width: '100%' }} showSearch >
+                                {truckData.map((item) => (
+                                    <Option key={item.value} value={item.value}>{item.text}</Option>
+                                ))}
+                            </Select> */}
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
+                            name="driver"
+                            label="司机"
+                            rules={[{ required: true, message: '请选择司机！' }]}
+                        >
+                            <AutoComplete placeholder="请输入或选择" filterOption options={driverData.map((item) => ({ value: item.text }))} />
+                            {/* <Select style={{ width: '100%' }} showSearch >
+                                {driverData.map((item) => (
+                                    <Option key={item.value} value={item.value}>{item.text}</Option>
+                                ))}
+                            </Select> */}
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="remark"
                             label="备注"
                         >
@@ -148,7 +183,7 @@ const UpdateForm = (props) => {
 
     return (
         <Drawer
-            width={600}
+            width={drawWidth(600)}
             bodyStyle={{ padding: 0 }}
             destroyOnClose
             title={title}
@@ -172,12 +207,14 @@ const UpdateForm = (props) => {
                 size='small'
                 initialValues={{
                     pk: formVals.pk,
-                    serialNumber: formVals.serialNumber !== undefined ?  formVals.serialNumber: moment().format('YYYYMMDDHHmmss'),
+                    serialNumber: formVals.serialNumber !== undefined ? formVals.serialNumber : moment().format('YYYYMMDDHHmmss'),
                     loadStationName: formVals.loadStation !== undefined ? [formVals.loadStationBranch, formVals.loadStationName, formVals.loadStation] : null,
                     loadtimeRange: (setTime(formVals.loadingBeginTime) !== null && setTime(formVals.loadingEndTime) !== null) ?
                         [setTime(formVals.loadingBeginTime), setTime(formVals.loadingEndTime)] : null,
                     unloadStationName: formVals.unloadStation !== undefined ? [formVals.unloadStationBranch, formVals.unloadStationName, formVals.unloadStation] : null,
                     oilLoadedMax: formVals.oilLoadedMax,
+                    carNumber: formVals.carNumber,
+                    driver: formVals.driver,
                     remark: formVals.remark,
                 }}
             >
@@ -189,4 +226,6 @@ const UpdateForm = (props) => {
 
 export default connect(({ common }) => ({
     oilStationData: common.oilStationData,
+    driverData: common.driverData,
+    truckData: common.truckData,
 }))(UpdateForm);
