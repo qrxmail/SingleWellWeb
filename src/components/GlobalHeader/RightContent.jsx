@@ -25,29 +25,22 @@ const GlobalHeaderRight = (props) => {
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
-        defaultValue="生产设备"
+        defaultValue="全部工单"
         options={[
           {
-            label: <a href="/DeviceLedgers/ProductDevice">生产设备</a>,
-            value: '生产设备',
+            label: <a href="/WorkTicket/WorkTicketList">全部工单</a>,
+            value: '全部工单',
           },
           {
-            label: <a href="/DeviceLedgers/PressureVesselDevice">压力容器</a>,
-            value: '压力容器',
+            label: <a href="/WorkTicket/WorkTicketLoad">待拉油</a>,
+            value: '待拉油',
           },
           {
-            label: <a href="/DeviceLedgers/PressurePipeDevice">压力管道</a>,
-            value: '压力管道',
+            label: <a href="/WorkTicket/WorkTicketUnLoad">待卸油</a>,
+            value: '待卸油',
           },
-          {
-            label: <a href="/DeviceLedgers/ValvePitDevice">阀井阀门</a>,
-            value: '阀井阀门',
-          },
-          {
-            label: <a href="/DeviceLedgers/PressureRegulatingStation">调压箱调压柜</a>,
-            value: '调压箱调压柜',
-          },
-        ]} // onSearch={value => {
+        ]}
+      // onSearch={value => {
       //   //console.log('input', value);
       // }}
       />
