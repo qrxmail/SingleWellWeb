@@ -134,6 +134,13 @@ const ViewForm = (props) => {
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <FormItem
+                                label="油罐"
+                            >
+                                {formValues.oilPot}
+                            </FormItem>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                            <FormItem
                                 label="拉油时间"
                             >
                                 {loadtimeRange}
@@ -158,6 +165,13 @@ const ViewForm = (props) => {
                                 label="司机"
                             >
                                 {formValues.driver}
+                            </FormItem>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                            <FormItem
+                                label="司机联系电话"
+                            >
+                                {formValues.driverPhone}
                             </FormItem>
                         </Col>
 

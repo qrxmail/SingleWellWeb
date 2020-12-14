@@ -279,8 +279,10 @@ const TableList = (props) => {
       valueType: 'option',
       fixed: 'right',
       render: (_, entity) => {
-        let btnIsDisabledEdit = (entity.status !== '待接单' && entity.status !== '待授权');
-        let btnIsDisabledDel = (entity.status !== '待接单' && entity.status !== '待授权' && entity.status !== "已作废");
+        // let btnIsDisabledEdit = (entity.status !== '待接单' && entity.status !== '待授权');
+        // let btnIsDisabledDel = (entity.status !== '待接单' && entity.status !== '待授权' && entity.status !== "已作废");
+        let btnIsDisabledEdit = entity.status !== '待拉油';
+        let btnIsDisabledDel = (entity.status !== '待拉油' && entity.status !== "已作废");
         let btnIsDisabledVoid = (entity.status === "已作废" || entity.status === "已完成");
         let btnIsDisabledOper = (entity.status === "已作废" || entity.status === "已完成");
         return (

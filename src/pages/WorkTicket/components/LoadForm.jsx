@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Drawer, Button, Cascader, DatePicker, Select, InputNumber, Row, Col } from 'antd';
 import moment from 'moment';
-import { drawWidth, setTime} from '../../common';
+import { drawWidth, setTime } from '../../common';
+import { oilPotDic } from '../../dic.config';
 
 // 表单项
 const FormItem = Form.Item;
@@ -25,6 +26,7 @@ const UpdateForm = (props) => {
         loadStationBranch: props.values.loadStationBranch,
         loadStationName: props.values.loadStationName,
         loadStation: props.values.loadStation,
+        oilPot: props.values.oilPot,
         loadingBeginTime: props.values.loadingBeginTime,
         loadingEndTime: props.values.loadingEndTime,
         unloadStationBranch: props.values.unloadStationBranch,
@@ -35,6 +37,7 @@ const UpdateForm = (props) => {
 
         carNumber: props.values.carNumber,
         driver: props.values.driver,
+        driverPhone: props.values.driverPhone,
 
         loadingActualBeginTime: props.values.loadingActualBeginTime,
         loadingActualEndTime: props.values.loadingActualEndTime,
@@ -117,6 +120,19 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="oilPot"
+                            label="油罐"
+                            rules={[{ required: true, message: '请选择油罐！' }]}
+                        >
+                            <Select style={{ width: '100%' }} disabled>
+                                {oilPotDic.map(name => (
+                                    <Option key={name} value={name}>{name}</Option>
+                                ))}
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="loadtimeRange"
                             label="拉油时间"
                             rules={[{ required: true, message: '请选择拉油时间！' }]}
@@ -146,11 +162,11 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
-                            name="oilLoadedMax" 
+                            name="oilLoadedMax"
                             label="可发油量m³"
                             rules={[{ required: true, message: '请输入可发油量！' }]}
                         >
-                            <InputNumber min={0} max={100000} style={{ width: '100%' }} disabled addonAfter="m³"/>
+                            <InputNumber min={0} max={100000} style={{ width: '100%' }} disabled addonAfter="m³" />
                         </FormItem>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -179,7 +195,15 @@ const UpdateForm = (props) => {
                             </Select>
                         </FormItem>
                     </Col>
-
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
+                            name="driverPhone"
+                            label="司机联系方式"
+                            rules={[{ required: true, message: '请输入司机联系方式！' }]}
+                        >
+                            <Input placeholder="请输入" disabled />
+                        </FormItem>
+                    </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             name="loadActualTimeRange"
@@ -255,13 +279,15 @@ const UpdateForm = (props) => {
                     pk: formVals.pk,
                     serialNumber: formVals.serialNumber,
                     loadStationName: formVals.loadStation !== undefined ? [formVals.loadStationBranch, formVals.loadStationName, formVals.loadStation] : null,
+                    oilPot: formVals.oilPot,
                     loadtimeRange: (setTime(formVals.loadingBeginTime) !== null && setTime(formVals.loadingEndTime) !== null) ?
                         [setTime(formVals.loadingBeginTime), setTime(formVals.loadingEndTime)] : null,
                     unloadStationName: formVals.unloadStation !== undefined ? [formVals.unloadStationBranch, formVals.unloadStationName, formVals.unloadStation] : null,
                     oilLoadedMax: formVals.oilLoadedMax,
-                    
+
                     carNumber: formVals.carNumber,
                     driver: formVals.driver,
+                    driverPhone: formVals.driverPhone,
 
                     loadActualTimeRange: (setTime(formVals.loadingActualBeginTime) !== null && setTime(formVals.loadingActualEndTime) !== null) ?
                         [setTime(formVals.loadingActualBeginTime), setTime(formVals.loadingActualEndTime)] : null,

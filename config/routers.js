@@ -81,26 +81,26 @@ export const routerConfig =
                   "管理区"
               ]
           },
-          {
-              "key": "/WorkTicketGrant",
-              "path": "WorkTicketGrant",
-              "name": "待授权",
-              "icon": "smile",
-              "component": "./WorkTicket",
-              "authority": [
-                  "admin"
-              ]
-          },
-          {
-              "key": "/WorkTicketReceive",
-              "path": "WorkTicketReceive",
-              "name": "待接单",
-              "icon": "smile",
-              "component": "./WorkTicket",
-              "authority": [
-                  "admin"
-              ]
-          },
+        //   {
+        //       "key": "/WorkTicketGrant",
+        //       "path": "WorkTicketGrant",
+        //       "name": "待授权",
+        //       "icon": "smile",
+        //       "component": "./WorkTicket",
+        //       "authority": [
+        //           "admin"
+        //       ]
+        //   },
+        //   {
+        //       "key": "/WorkTicketReceive",
+        //       "path": "WorkTicketReceive",
+        //       "name": "待接单",
+        //       "icon": "smile",
+        //       "component": "./WorkTicket",
+        //       "authority": [
+        //           "admin"
+        //       ]
+        //   },
           {
               "key": "/WorkTicketLoad",
               "path": "WorkTicketLoad",
@@ -139,26 +139,26 @@ export const routerConfig =
           }
       ]
   },
-  {
-      "key": "/Driver",
-      "path": "Driver",
-      "name": "司机管理",
-      "icon": "smile",
-      "component": "./Driver",
-      "authority": [
-          "admin"
-      ]
-  },
-  {
-      "key": "/Truck",
-      "path": "Truck",
-      "name": "车辆管理",
-      "icon": "smile",
-      "component": "./Truck",
-      "authority": [
-          "admin"
-      ]
-  },
+//   {
+//       "key": "/Driver",
+//       "path": "Driver",
+//       "name": "司机管理",
+//       "icon": "smile",
+//       "component": "./Driver",
+//       "authority": [
+//           "admin"
+//       ]
+//   },
+//   {
+//       "key": "/Truck",
+//       "path": "Truck",
+//       "name": "车辆管理",
+//       "icon": "smile",
+//       "component": "./Truck",
+//       "authority": [
+//           "admin"
+//       ]
+//   },
   {
       "key": "/Reports",
       "path": "Reports",
