@@ -4,12 +4,13 @@ import { Button, Cascader, Divider, message, Row, Col } from "antd";
 import { PageContainer } from '@ant-design/pro-layout';
 import { ReactSVG } from "react-svg";
 import SVG from "svg.js";
-import stationImage from "../../assets/station.svg";
+import stationImage from "../../assets/station-1.svg";
 import moment from "moment";
 import Reflv from "./reflv.js";
 
-import { turnOn, turnOff, queryStationData } from './service';
+import { getStationData, deviceControl, setSystemPara } from './service';
 import DeviceControll from './components/DeviceControll';
+import SetParamsForm from './components/SetParamsForm'
 
 import '../Common.less';
 
@@ -19,20 +20,12 @@ const cameraUrl = "http://localhost:8000/live/demo.flv";
 // 定义设备配置信息（id,名称,操作按钮名称，操作按钮名称）
 const deviceConfig = [
   // 打开、关闭指令的设备
-  { targetId: "loadPump", title: "装车泵", turnOnText: "打开", turnOffText: "关闭" },
-  { targetId: "heater01", title: "电加热1", turnOnText: "打开", turnOffText: "关闭" },
-  { targetId: "heater02", title: "电加热2", turnOnText: "打开", turnOffText: "关闭" },
-  { targetId: "loopValve", title: "回流阀", turnOnText: "打开", turnOffText: "关闭" },
-  { targetId: "outValve", title: "出油阀", turnOnText: "打开", turnOffText: "关闭" },
-
-  // 远程、就地指令的设备
-  { targetId: "loadPumpLocalRemote", title: "装车泵", turnOnText: "远程", turnOffText: "就地" },
-  { targetId: "heater01LocalRemote", title: "电加热1", turnOnText: "远程", turnOffText: "就地" },
-  { targetId: "heater02LocalRemote", title: "电加热2", turnOnText: "远程", turnOffText: "就地" },
-
-  // 自动、手动指令的设备
-  { targetId: "heater01ManualAuto", title: "电加热1", turnOnText: "自动", turnOffText: "手动" },
-  { targetId: "heater02ManualAuto", title: "电加热2", turnOnText: "自动", turnOffText: "手动" },
+  { targetId: "LoopValve01", title: "1#循环阀", turnOnText: "打开", turnOffText: "关闭" },
+  { targetId: "LoopValve02", title: "2#循环阀", turnOnText: "打开", turnOffText: "关闭" },
+  { targetId: "OutValve01", title: "1#出油阀", turnOnText: "打开", turnOffText: "关闭" },
+  { targetId: "OutValve02", title: "2#出油阀", turnOnText: "打开", turnOffText: "关闭" },
+  { targetId: "Pump01", title: "1#装车泵", turnOnText: "打开", turnOffText: "关闭" },
+  { targetId: "Pump02", title: "2#装车泵", turnOnText: "打开", turnOffText: "关闭" },
 ];
 
 const DEVICE_ON_COLOR = "yellowGreen";
@@ -40,20 +33,29 @@ const DEVICE_OFF_COLOR = "WhiteSmoke";
 const DEVICE_UNKNOW_COLOR = "yellow";
 
 const ViewPage = (props) => {
+
   // 将当前用户加入到props中
   const {
     currentUser,
     dispatch,
     oilStationData,
     // 从路由中获取参数query
-    location: { query }
+    location: { query },
   } = props;
 
   useEffect(() => {
+
     if (dispatch) {
       dispatch({
         type: 'common/fetchOilStationData',
       });
+    }
+
+    let timeId = setInterval(updateHMI, 5000);
+
+    return () => {
+      // 相当于 componentWillUnmount
+      clearInterval(timeId);
     }
   }, []);
 
@@ -61,30 +63,32 @@ const ViewPage = (props) => {
   const [controlOption, setControlOption] = useState({});
   // 设备控制页面是否可见
   const [deviceControlVisible, setDeviceControlVisible] = useState(false);
-  // 更新时间
-  const [updateTime, setUpdateTime] = useState(moment().format("LTS"));
 
   // 监控视频是否可见
   const [cameraVisible, setCameraVisible] = useState(false);
 
-  let outValve = null;
-  let loopValve = null;
-  let heater01 = null;
-  let heater02 = null;
-  let loadPump = null;
-  let loadPumpLocalRemote = null;
-  let heater01LocalRemote = null;
-  let heater02LocalRemote = null;
-  let heater01ManualAuto = null;
-  let heater02ManualAuto = null;
-  let levelLabel = null;
-  let levelGauge = null;
-  let pvOilLabel = null;
-  let spOilLabel = null;
-  let pvHeater01Label = null;
-  let pvHeater02Label = null;
-  let spHeater01Label = null;
-  let spHeater02Label = null;
+  // 设置参数页面是否可见
+  const [setParamsModalVisible, handleSetParamsModalVisible] = useState(false);
+  // 参数初始值
+  const [formValues, setFormValues] = useState({});
+
+  let LoopValve01 = null;  // 1#循环阀
+  let LoopValve02 = null;  // 2#循环阀
+  let OutValve01 = null;   // 1#出油阀
+  let OutValve02 = null;   // 2#出油阀
+  let Pump01 = null;  // 1#装车泵
+  let Pump02 = null;  // 2#装车泵
+  let Gauge01 = null; // 1#罐
+  let Gauge02 = null; // 1#罐
+
+  let LoopValve01Value = null;  // 1#循环阀显示值
+  let LoopValve02Value = null;  // 2#循环阀显示值
+  let OutValve01Value = null;  // 1#出油阀显示值
+  let OutValve02Value = null;  // 2#出油阀显示值
+  let Pump01Value = null;  // 1#装车泵显示值
+  let Pump02Value = null;  // 2#装车泵显示值
+  let Gauge01Level = null;  // 1#罐液位显示值
+  let Gauge02Level = null;  // 2#罐液位显示值
 
   // 站点svg图点击事件
   const onClickSVG = (e) => {
@@ -99,11 +103,11 @@ const ViewPage = (props) => {
     }
   };
 
-  // 打开指令
-  const handleTurnOn = async (fields) => {
+  // 设备控制
+  const handleDeviceControl = async (fields) => {
     const hide = message.loading('正在操作');
     try {
-      let result = await turnOn(fields);
+      let result = await deviceControl(fields);
       hide();
       if (result.isSuccess) {
         setDeviceControlVisible(false);
@@ -119,22 +123,30 @@ const ViewPage = (props) => {
     }
   };
 
-  // 关闭指令
-  const handleTurnOff = async (fields) => {
-    const hide = message.loading('正在操作');
+  // 设置参数保存方法
+  const handleSetParmas = async (fields) => {
+    const hide = message.loading('正在保存');
+
+    // 将null和空字符串的属性去掉
+    Object.keys(fields).forEach((key) => {
+      //let tkey = key as keyof typeof fields;
+      if (fields[key] == null || fields[key] == '') {
+        delete fields[key];
+      }
+    });
+
     try {
-      let result = await turnOff(fields);
+      let result = await setSystemPara(fields);
       hide();
       if (result.isSuccess) {
-        setDeviceControlVisible(false);
-        message.success('操作成功');
+        message.success('保存成功');
       } else {
         message.error(result.errMsg);
       }
       return result.isSuccess;
     } catch (error) {
       hide();
-      message.error('操作失败请重试！');
+      message.error('保存失败请重试！');
       return false;
     }
   };
@@ -150,7 +162,7 @@ const ViewPage = (props) => {
     }
     valve.style({ fill: `${deviceColor}` });
     var valveChildren = valve.children();
-    valveChildren.forEach(function (i, children) {
+    valveChildren.forEach(function (i) {
       i.style({ fill: `${deviceColor}` });
     });
   }
@@ -166,7 +178,9 @@ const ViewPage = (props) => {
   }
 
   function setText(svgLabel, value) {
-    svgLabel.node.textContent = value;
+    if (svgLabel.node !== undefined) {
+      svgLabel.node.innerHTML = value;
+    }
   }
 
   function setHeight(svgRect, value) {
@@ -184,65 +198,78 @@ const ViewPage = (props) => {
   // 初始化SVG,给控件变量赋值
   const initialSVG = () => {
 
-    outValve = SVG.get("outValve");
-    loopValve = SVG.get("loopValve");
-    heater01 = SVG.get("heater01");
-    heater02 = SVG.get("heater02");
-    loadPump = SVG.get("loadPump");
-    loadPumpLocalRemote = SVG.get("loadPumpLocalRemote");
-    heater01LocalRemote = SVG.get("heater01LocalRemote");
-    heater02LocalRemote = SVG.get("heater02LocalRemote");
-    heater01ManualAuto = SVG.get("heater01ManualAuto");
-    heater02ManualAuto = SVG.get("heater02ManualAuto");
+    LoopValve01 = SVG.get("LoopValve01");
+    LoopValve02 = SVG.get("LoopValve02");
+    OutValve01 = SVG.get("OutValve01");
+    OutValve02 = SVG.get("OutValve02");
+    Pump01 = SVG.get("Pump01");
+    Pump02 = SVG.get("Pump02");
+    Gauge01 = SVG.get("Gauge01");
+    Gauge02 = SVG.get("Gauge02");
 
-    levelLabel = SVG.get("levelLabel");
-    levelGauge = SVG.get("levelGauge");
-    pvOilLabel = SVG.get("pvOilLabel");
-    spOilLabel = SVG.get("spOilLabel");
-    pvHeater01Label = SVG.get("pvHeater01Label");
-    spHeater01Label = SVG.get("spHeater01Label");
-    pvHeater02Label = SVG.get("pvHeater02Label");
-    spHeater02Label = SVG.get("spHeater02Label");
+    LoopValve01Value = SVG.get("LoopValve01Value");
+    LoopValve02Value = SVG.get("LoopValve02Value");
+    OutValve01Value = SVG.get("OutValve01Value");
+    OutValve02Value = SVG.get("OutValve02Value");
+    Pump01Value = SVG.get("Pump01Value");
+    Pump02Value = SVG.get("Pump02Value");
+    Gauge01Level = SVG.get("Gauge01Level");
+    Gauge02Level = SVG.get("Gauge02Level");
 
-    //setInterval(updateHMI, 5000);
-    //updateHMI();
+    updateHMI();
   };
+
+  // 获取设备状态名称
+  const GetStateName = (obj) => {
+    let name = "";
+    if (obj.Opened === true && obj.Closed === true) {
+      name = "异常";
+    } else if (obj.Opened === false && obj.Closed === false) {
+      name = "进行中";
+    } else if (obj.Opened === true && obj.Closed === false) {
+      name = "开到位";
+    } else if (obj.Opened === true && obj.Closed === false) {
+      name = "关到位";
+    } else {
+      name = "异常";
+    }
+    return name;
+  }
 
   const updateHMI = async () => {
 
     // 设置更新时间
-    setUpdateTime(moment().format("LTS"));
+    document.getElementById("timeLabel").innerText = moment().format("YYYY年MM月DD日 HH:mm:ss");
 
     // 获取站点数据
-    let stationData = await queryStationData();
+    let stationData = await getStationData();
 
     // 设置站点设备数据
-    setDeviceStatus(loadPump, stationData.loadPumpStatus);
-    setDeviceStatus(heater01, stationData.heater01Status);
-    setDeviceStatus(heater02, stationData.heater02Status);
-    setValveStatus(loopValve, stationData.loopValveStatus);
-    setValveStatus(outValve, stationData.outValveStatus);
-    setSwitch(loadPumpLocalRemote, stationData.loadPumpLocalRemote);
-    setSwitch(heater01LocalRemote, stationData.heater01LocalRemote);
-    setSwitch(heater02LocalRemote, stationData.heater02LocalRemote);
-    setSwitch(heater01ManualAuto, stationData.heater01ManualAuto);
-    setSwitch(heater02ManualAuto, stationData.heater02ManualAuto);
+    // setValveStatus(LoopValve01, stationData.loopValve01Status);
+    // setValveStatus(LoopValve02, stationData.loopValve02Status);
+    // setValveStatus(OutValve01, stationData.outValve01Status);
+    // setValveStatus(OutValve02, stationData.outValve02Status);
+    // setDeviceStatus(Pump01, stationData.pump01Status);
+    // setDeviceStatus(Pump02, stationData.pump02Status);
+    // setHeight(Gauge01, stationData.gauge01level);
+    // setHeight(Gauge02, stationData.gauge02level);
 
-    setText(levelLabel, stationData.levelPV);
-    setText(pvOilLabel, stationData.oilTempPV);
-    setText(spOilLabel, stationData.oilTempSP);
-    setText(pvHeater01Label, stationData.heater01TempPV);
-    setText(spHeater01Label, stationData.heater01TempSP);
-    setText(pvHeater02Label, stationData.heater02TempPV);
-    setText(spHeater02Label, stationData.heater02TempSP);
-    setHeight(levelGauge, stationData.levelPV / 10);
+    //setSwitch(loadPumpLocalRemote, stationData.loadPumpLocalRemote);
+
+    setText(LoopValve01Value, GetStateName(stationData.LoopValve01));
+    setText(LoopValve02Value, GetStateName(stationData.LoopValve02));
+    setText(OutValve01Value, GetStateName(stationData.OutValve01));
+    setText(OutValve02Value, GetStateName(stationData.OutValve02));
+    setText(Pump01Value, GetStateName(stationData.Pump101));
+    setText(Pump02Value, GetStateName(stationData.Pump102));
+    setText(Gauge01Level, stationData.LT101.EngValue.toFixed(2));
+    setText(Gauge02Level, stationData.LT102.EngValue.toFixed(2));
   };
-
 
   // 绘制页面
   return (
     <PageContainer>
-      <Row style={{ backgroundColor: "white",paddingBottom:40 }}>
+      <Row style={{ backgroundColor: "white", paddingBottom: 40 }}>
         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ padding: 10 }}>
           <Cascader style={{ width: 300 }}
             options={oilStationData}
@@ -253,7 +280,14 @@ const ViewPage = (props) => {
           <Button key="show" type="primary" style={{ marginLeft: 10 }} onClick={() => { setCameraVisible(!cameraVisible) }} >
             监控画面
           </Button>
-          <label style={{ display: "inline-block", marginRight: 10, lineHeight: "30px", float: "right", fontWeight: "bolder" }}>{updateTime}</label>
+          <Button key="setParams" type="primary" style={{ marginLeft: 10 }}
+            onClick={() => {
+              handleSetParamsModalVisible(true);
+              setFormValues({});
+            }} >
+            设置参数
+          </Button>
+          <label id="timeLabel" style={{ display: "inline-block", marginRight: 10, lineHeight: "30px", float: "right", fontWeight: "bolder" }}></label>
         </Col>
         <Divider style={{ margin: 0 }} />
         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ textAlign: "center" }} >
@@ -272,13 +306,12 @@ const ViewPage = (props) => {
           visible={deviceControlVisible}
           option={controlOption}
           onCancel={() => { setDeviceControlVisible(false) }}
-          handleTurnOn={handleTurnOn}
-          handleTurnOff={handleTurnOff}
+          handleTurnOn={handleDeviceControl}
+          handleTurnOff={handleDeviceControl}
         />
       ) : null}
 
       {cameraVisible ? (
-
         <div style={{ width: "30%", position: "fixed", left: "10%", top: "20%" }}>
           <Reflv
             url={cameraUrl}
@@ -292,6 +325,26 @@ const ViewPage = (props) => {
             }}
           />
         </div>
+      ) : null}
+
+      {/* 参数设置 */}
+      { setParamsModalVisible ? (
+        <SetParamsForm
+          title="参数设置"
+          onSubmit={async (value) => {
+            const success = await handleSetParmas(value);
+            if (success) {
+              handleSetParamsModalVisible(false);
+              setFormValues({});
+            }
+          }}
+          onCancel={() => {
+            handleSetParamsModalVisible(false);
+            setFormValues({});
+          }}
+          setParamsModalVisible={setParamsModalVisible}
+          values={formValues}
+        />
       ) : null}
 
     </PageContainer>

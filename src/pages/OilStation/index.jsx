@@ -264,7 +264,7 @@ const TableList = (props) => {
             新增
           </Button>
         ]}
-      //scroll={{ x: 4000 }}
+        scroll={{ x: 'max-content' }}
       />
 
       {selectedRowsState?.length > 0 && (
