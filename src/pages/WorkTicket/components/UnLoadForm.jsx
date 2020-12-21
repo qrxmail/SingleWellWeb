@@ -212,6 +212,15 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="subSerialNumber"
+                            label="铅封号"
+                            rules={[{ required: true, message: '请输入铅封号！' }]}
+                        >
+                            <Input placeholder="请输入" disabled/>
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="loadActualTimeRange"
                             label="发油时间"
                             rules={[{ required: true, message: '请选择发油时间！' }]}
@@ -268,15 +277,7 @@ const UpdateForm = (props) => {
                             <InputNumber min={0} max={100000} style={{ width: '100%' }} />
                         </FormItem>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <FormItem
-                            name="subSerialNumber"
-                            label="铅封号"
-                            rules={[{ required: true, message: '请输入铅封号！' }]}
-                        >
-                            <Input placeholder="请输入" />
-                        </FormItem>
-                    </Col>
+                   
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
                             label="卸油人"

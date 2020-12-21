@@ -30,6 +30,7 @@ const UpdateForm = (props) => {
         carNumber: props.values.carNumber,
         driver: props.values.driver,
         driverPhone: props.values.driverPhone,
+        subSerialNumber: props.values.subSerialNumber,
         status: props.values.status,
         remark: props.values.remark,
     });
@@ -195,6 +196,15 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="subSerialNumber"
+                            label="铅封号"
+                            rules={[{ required: true, message: '请输入铅封号！' }]}
+                        >
+                            <Input placeholder="请输入" />
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="remark"
                             label="备注"
                         >
@@ -242,6 +252,7 @@ const UpdateForm = (props) => {
                     carNumber: formVals.carNumber,
                     driver: formVals.driver,
                     driverPhone: formVals.driverPhone,
+                    subSerialNumber: formVals.subSerialNumber,
                     remark: formVals.remark,
                 }}
             >

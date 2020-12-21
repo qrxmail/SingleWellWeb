@@ -107,7 +107,10 @@ const ViewPage = (props) => {
   const handleDeviceControl = async (fields) => {
     const hide = message.loading('正在操作');
     try {
-      let result = await deviceControl(fields);
+      let params = {};
+      params.name = fields.cmd + fields.targetId;
+      params.writeCommand = { stationName: "1", deviceName: "2", newValue: "3" };
+      let result = await deviceControl(params);
       hide();
       if (result.isSuccess) {
         setDeviceControlVisible(false);
@@ -305,9 +308,17 @@ const ViewPage = (props) => {
         <DeviceControll
           visible={deviceControlVisible}
           option={controlOption}
-          onCancel={() => { setDeviceControlVisible(false) }}
-          handleTurnOn={handleDeviceControl}
-          handleTurnOff={handleDeviceControl}
+          onCancel={() => {
+            setDeviceControlVisible(false);
+            setControlOption({});
+          }}
+          handleDeviceControl={async (value) => {
+            const success = await handleDeviceControl(value);
+            if (success) {
+              setDeviceControlVisible(false);
+              setControlOption({});
+            }
+          }}
         />
       ) : null}
 

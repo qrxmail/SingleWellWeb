@@ -38,6 +38,7 @@ const UpdateForm = (props) => {
         carNumber: props.values.carNumber,
         driver: props.values.driver,
         driverPhone: props.values.driverPhone,
+        subSerialNumber: props.values.subSerialNumber,
 
         loadingActualBeginTime: props.values.loadingActualBeginTime,
         loadingActualEndTime: props.values.loadingActualEndTime,
@@ -206,6 +207,15 @@ const UpdateForm = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <FormItem
+                            name="subSerialNumber"
+                            label="铅封号"
+                            rules={[{ required: true, message: '请输入铅封号！' }]}
+                        >
+                            <Input placeholder="请输入" disabled/>
+                        </FormItem>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <FormItem
                             name="loadActualTimeRange"
                             label="发油时间"
                             rules={[{ required: true, message: '请选择发油时间！' }]}
@@ -288,6 +298,7 @@ const UpdateForm = (props) => {
                     carNumber: formVals.carNumber,
                     driver: formVals.driver,
                     driverPhone: formVals.driverPhone,
+                    subSerialNumber: formVals.subSerialNumber,
 
                     loadActualTimeRange: (setTime(formVals.loadingActualBeginTime) !== null && setTime(formVals.loadingActualEndTime) !== null) ?
                         [setTime(formVals.loadingActualBeginTime), setTime(formVals.loadingActualEndTime)] : null,
