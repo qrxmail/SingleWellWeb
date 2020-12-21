@@ -14,11 +14,17 @@ export async function deviceControl(params) {
   });
 }
 
-export async function setSystemPara(params) {
-  return request('/api/setSystemPara', {
+export async function setSystemSettingPara(params) {
+  return request('/api/setSystemSettingPara', {
     method: 'POST',
     data: { ...params},
   });
+}
+
+export async function getStationConfigData(params) {
+  let queryStr = JSON.stringify(params);
+  //return request('/api/getStationConfigData?queryStr='+queryStr);
+  return request('/api/getStationConfigData');
 }
 
 

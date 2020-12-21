@@ -8,7 +8,7 @@ import stationImage from "../../assets/station-1.svg";
 import moment from "moment";
 import Reflv from "./reflv.js";
 
-import { getStationData, deviceControl, setSystemPara } from './service';
+import { getStationData, deviceControl, getStationConfigData, setSystemSettingPara } from './service';
 import DeviceControll from './components/DeviceControll';
 import SetParamsForm from './components/SetParamsForm'
 
@@ -139,7 +139,7 @@ const ViewPage = (props) => {
     });
 
     try {
-      let result = await setSystemPara(fields);
+      let result = await setSystemSettingPara(fields);
       hide();
       if (result.isSuccess) {
         message.success('保存成功');
@@ -284,9 +284,10 @@ const ViewPage = (props) => {
             监控画面
           </Button>
           <Button key="setParams" type="primary" style={{ marginLeft: 10 }}
-            onClick={() => {
+            onClick={async () => {
               handleSetParamsModalVisible(true);
-              setFormValues({});
+              let params = await getStationConfigData({});
+              setFormValues(params);
             }} >
             设置参数
           </Button>
@@ -339,7 +340,7 @@ const ViewPage = (props) => {
       ) : null}
 
       {/* 参数设置 */}
-      { setParamsModalVisible ? (
+      { formValues && Object.keys(formValues).length && setParamsModalVisible ? (
         <SetParamsForm
           title="参数设置"
           onSubmit={async (value) => {
