@@ -27,4 +27,7 @@ export async function getStationConfigData(params) {
   return request('/api/getStationConfigData');
 }
 
-
+// 定时任务管理
+export async function quartzTask(type) {
+  return request('/api/QuartzTask?type='+type);
+}

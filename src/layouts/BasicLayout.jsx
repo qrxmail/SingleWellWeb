@@ -12,6 +12,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.png';
+import Notification from '../pages/Notification'
 
 const noMatch = (
   <Result
@@ -152,6 +153,9 @@ const BasicLayout = (props) => {
       <Authorized authority={authorized.authority} noMatch={noMatch}>
         {children}
       </Authorized>
+
+      <Notification />
+      
     </ProLayout>
   );
 };

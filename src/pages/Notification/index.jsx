@@ -27,13 +27,13 @@ class Notification extends React.Component {
     componentWillUnmount() {
         this.connection.stop();
     }
-    onNotifReceived(taskNo, taskTitle) {
+    onNotifReceived(message, description) {
         notification.info({
-            message: '任务提醒：',
-            description: '描述',
+            message: message,
+            description: <a href="/WorkTicket/WorkTicketUnLoad">{description}</a>,
             placement: 'bottomRight',
             duration: null,
-            icon: <ExclamationCircleFilled />
+            icon: <ExclamationCircleFilled style={{ color: '#1890ff' }} />
         })
     }
 

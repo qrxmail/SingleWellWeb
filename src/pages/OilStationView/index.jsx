@@ -239,6 +239,25 @@ const ViewPage = (props) => {
     return name;
   }
 
+  const GetModeName = (value) => {
+    let name = "";
+    switch (value) {
+      case 0:
+        name = "空闲";
+        break;
+      case 1:
+        name = "待拉油";
+        break;
+      case 2:
+        name = "拉油中";
+        break;
+      default:
+        break;
+    }
+
+    return name;
+  }
+
   const updateHMI = async () => {
 
     // 设置更新时间
@@ -267,6 +286,8 @@ const ViewPage = (props) => {
     setText(Pump02Value, GetStateName(stationData.Pump102));
     setText(Gauge01Level, stationData.LT101.EngValue.toFixed(2));
     setText(Gauge02Level, stationData.LT102.EngValue.toFixed(2));
+
+    document.getElementById("modeLabel").innerText = GetModeName(stationData.System.Mode);
   };
 
   // 绘制页面
@@ -280,9 +301,9 @@ const ViewPage = (props) => {
             placeholder="请选择"
             defaultValue={[query.branch, query.district, query.pk]}
           />
-          <Button key="show" type="primary" style={{ marginLeft: 10 }} onClick={() => { setCameraVisible(!cameraVisible) }} >
+          {/* <Button key="show" type="primary" style={{ marginLeft: 10 }} onClick={() => { setCameraVisible(!cameraVisible) }} >
             监控画面
-          </Button>
+          </Button> */}
           <Button key="setParams" type="primary" style={{ marginLeft: 10 }}
             onClick={async () => {
               handleSetParamsModalVisible(true);
@@ -292,6 +313,7 @@ const ViewPage = (props) => {
             设置参数
           </Button>
           <label id="timeLabel" style={{ display: "inline-block", marginRight: 10, lineHeight: "30px", float: "right", fontWeight: "bolder" }}></label>
+          <Button id="modeLabel" style={{ float: "right", marginRight: 10, }} danger ></Button>
         </Col>
         <Divider style={{ margin: 0 }} />
         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ textAlign: "center" }} >

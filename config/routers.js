@@ -136,7 +136,19 @@ export const routerConfig =
                   "user",
                   "管理区"
               ]
-          }
+          },
+          {
+            "key": "/NotificationLog",
+            "path": "NotificationLog",
+            "name": "工单自动处理",
+            "icon": "smile",
+            "component": "./NotificationLog",
+            "authority": [
+                "admin",
+                "user",
+                "管理区"
+            ]
+        }
       ]
   },
 //   {
