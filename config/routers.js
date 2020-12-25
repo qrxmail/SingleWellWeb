@@ -43,6 +43,20 @@ export const routerConfig =
       "hideInMenu": true
   },
   {
+    "key": "/userView",
+    "path": "userView",
+    "name": "用户详情",
+    "icon": "smile",
+    "component": "./userView",
+    "authority": [
+        "admin",
+        "user",
+        "调度中心",
+        "管理区"
+    ],
+    "hideInMenu": true
+},
+  {
       "key": "/OilStation",
       "path": "OilStation",
       "name": "站点管理",
@@ -140,7 +154,7 @@ export const routerConfig =
           {
             "key": "/NotificationLog",
             "path": "NotificationLog",
-            "name": "工单自动处理",
+            "name": "定时任务管理",
             "icon": "smile",
             "component": "./NotificationLog",
             "authority": [

@@ -10,14 +10,14 @@ export async function getStationData(params) {
 export async function deviceControl(params) {
   return request('/api/deviceControl', {
     method: 'POST',
-    data: { ...params},
+    data: { ...params },
   });
 }
 
 export async function setSystemSettingPara(params) {
   return request('/api/setSystemSettingPara', {
     method: 'POST',
-    data: { ...params},
+    data: { ...params },
   });
 }
 
@@ -28,6 +28,6 @@ export async function getStationConfigData(params) {
 }
 
 // 定时任务管理
-export async function quartzTask(type) {
-  return request('/api/QuartzTask?type='+type);
+export async function quartzTask(type, jobName, jobGroup) {
+  return request('/api/QuartzTask?type=' + type + '&jobName=' + jobName + '&jobGroup=' + jobGroup);
 }

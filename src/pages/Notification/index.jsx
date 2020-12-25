@@ -30,7 +30,7 @@ class Notification extends React.Component {
     onNotifReceived(message, description) {
         notification.info({
             message: message,
-            description: <a href="/WorkTicket/WorkTicketUnLoad">{description}</a>,
+            description: <a href="/WorkTicket/WorkTicketList">{description}</a>,
             placement: 'bottomRight',
             duration: null,
             icon: <ExclamationCircleFilled style={{ color: '#1890ff' }} />

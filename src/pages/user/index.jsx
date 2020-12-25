@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Button, Drawer, Divider, Modal, message } from "antd";
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { routerRedux } from 'dva';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import { drawWidth } from '../common';
@@ -100,7 +101,8 @@ const handleResetPwd = async (fields) => {
 const TableList = (props) => {
   // 将当前用户加入到props中
   const {
-    currentUser
+    currentUser,
+    dispatch
   } = props;
 
   // 列表的列属性
@@ -112,8 +114,14 @@ const TableList = (props) => {
     {
       title: "账户",
       dataIndex: "userName",
+      // 打开详情页面
       render: (dom, entity) => {
-        return <a onClick={() => setRow(entity)}>{dom}</a>;
+        return <a onClick={() => {
+          dispatch(routerRedux.push({
+            pathname: '/userView',
+            query: { userId: entity.userId }
+          }));
+        }}>{dom}</a>;
       },
       sorter: true,
     },
@@ -250,7 +258,7 @@ const TableList = (props) => {
             新增
           </Button>
         ]}
-      //scroll={{ x: 4000 }}
+        scroll={{ x: 'max-content' }}
       />
 
       {selectedRowsState?.length > 0 && (

@@ -74,8 +74,8 @@ const ViewForm = (props) => {
     // 表单内容
     const renderContent = () => {
 
-        console.log("formValues" + JSON.stringify(formValues));
-        console.log("qrcode" + qrcode);
+        //console.log("formValues" + JSON.stringify(formValues));
+        //console.log("qrcode" + qrcode);
 
         // 拉油时间
         let loadtimeRange = (setTime(formValues.loadingBeginTime) !== null && setTime(formValues.loadingEndTime) !== null) ?
